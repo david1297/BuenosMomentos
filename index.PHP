@@ -99,7 +99,7 @@
         <Div id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>' >
             <?php
-            $sql="SELECT Tipo,Elemento FROM seccion1d where Seccion = ".$row['Seccion']."";
+            $sql="SELECT Tipo,Elemento FROM seccion1d where Seccion = ".$row['Seccion']." order by Orden ";
             $queryd = mysqli_query($con, $sql);
             while($Sessiond=mysqli_fetch_array($queryd)){
               if ($Sessiond['Tipo']=='Titulo'){
@@ -194,8 +194,8 @@
                       <div class="carousel-item <?php echo $active; ?>">
                         <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                          <p style='<?php echo $TTamaño.$TColor;?>' class='text-center BrandonBold <?php echo  $TTipografia.' '.$TJustificacio;?>'><?php echo $Objeto['Titulo'];?></p>
-                          <p style='<?php echo $PTamaño.$PColor;?>' class='text-center BrandonBold <?php echo  $PTipografia.' '.$PJustificacio;?>'><?php echo $Objeto['Parrafo'];?></p>
+                          <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                          <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
                         </div>
                       </div>
                       <?php
@@ -255,7 +255,7 @@
         <br>
         <?php
       } else{
-        $sql="SELECT Descripcion,Id,TipoFondo,Fondo,Completa FROM seccion2 where Id = ".$row['Seccion']."";
+        $sql="SELECT Descripcion,Id,TipoFondo,Fondo,Completa FROM seccion2 where Id = ".$row['Seccion']." ";
         $query1 = mysqli_query($con, $sql);
         $Session=mysqli_fetch_array($query1);
         if ($Session['Completa']=='True'){
@@ -277,7 +277,7 @@
         <section id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>'>
             <?php
-            $sql="SELECT Tipo1,Elemento1,Tipo2,Elemento2 FROM seccion2d where Seccion = ".$row['Seccion']."";
+            $sql="SELECT Tipo1,Elemento1,Tipo2,Elemento2 FROM seccion2d where Seccion = ".$row['Seccion']."  order by Orden";
             $queryd = mysqli_query($con, $sql);
             while($Sessiond=mysqli_fetch_array($queryd)){
              ?>
