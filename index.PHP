@@ -51,10 +51,8 @@
         </a></div>
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="#intro">INICIO</a></li>
-          <li><a href="#momentos">MOMENTOS</a></li>
-          <li><a href="#calendario">CALENDARIO</a></li>
-          <li><a href="#comentario">COMENTARIOS</a></li>
+          <li class="menu-active"><a href="index.php">INICIO</a></li>
+         
         </ul>
       </nav>
     </div>
@@ -88,7 +86,7 @@
         if ($Session['TipoFondo']=='Imagen'){
           $Fondo='background :url(data:image/gif;base64,'.$Session['Fondo'].')
           no-repeat
-          left center;
+          center center;
           background-size: cover;
        ';
         }else{
@@ -98,21 +96,24 @@
         ?>
         <Div id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>' >
+          
             <?php
             $sql="SELECT Tipo,Elemento FROM seccion1d where Seccion = ".$row['Seccion']." order by Orden ";
             $queryd = mysqli_query($con, $sql);
             while($Sessiond=mysqli_fetch_array($queryd)){
               if ($Sessiond['Tipo']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia FROM titulos where Id = ".$Sessiond['Elemento'].";";
+                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
                 $Color=' color:'.$Objeto['color'];
                 $TipoGrafia =$Objeto['TipoGrafia'];
+                $Justificacion =$Objeto['Justificacion'];
                 ?>
+                <BR>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 "> 
-                    <p style='<?php echo $Tamaño.$Color;?>' class='text-center BrandonBold <?php echo  $TipoGrafia;?>'><?php echo $Objeto['Texto'];?></p>
+                  <div class="col-md-12 "> 
+                    <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                   </div>
                 </div>
                 <?php
@@ -126,6 +127,7 @@
                 $TipoGrafia =$Objeto['TipoGrafia'];
                 $Justificacion =$Objeto['Justificacion'];
                 ?>
+                <BR>
                 <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
           
                 <?php
@@ -136,6 +138,7 @@
                 $Objeto=mysqli_fetch_array($queryO);
                 $Imagen = $Objeto['Imagen'];
                 ?>
+                <BR>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                   <div class="col-md-offset-2 col-md-8 ">
 					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class='img-thumbnail'  alt="Imagen" />
@@ -150,6 +153,7 @@
                 $Video = $Objeto['Video'];
 				        $Autoplay = $Objeto['Autoplay'];
                 ?>
+                <BR>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                   <div class="col-md-offset-2 col-md-8 ">
                     <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
@@ -247,12 +251,47 @@
                 </section>
                 <?php
               }
+              if ($Sessiond['Tipo']=='Botonera'){
+                $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento'].";";
+                $queryO = mysqli_query($con, $sql);
+                ?>
+                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
+                  <?php
+                  while($Objeto=mysqli_fetch_array($queryO)){
+                    $Enlace = $Objeto['Enlace'];
+                    $Imagen = $Objeto['Imagen'];
+                    $RBorder = $Objeto['RBorder'];
+                    $BGrosor = $Objeto['BGrosor'];
+                    $Descripcion = $Objeto['Descripcion'];
+                    $BColor = $Objeto['BColor'];
+                    ?>
+                    
+                    <div class="col-md-3" style="    padding-top: 15px;">
+                      <div class="text-center" style=' 
+                        border-width: <?php echo  $BGrosor;?>px;
+                        border-style: solid;
+                        border-color: <?php echo  $BColor;?>;
+                        border-radius:<?php echo  $RBorder;?>%;
+                        '>              
+                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
+                          
+                        </a>
+                      </div>   
+                    </div>
+                    <?php
+                  }
+                ?>
+                </div>
+                <br>
+               <?php
+              }
 
             }
             ?>
           </div> 
           </Div>
-        <br>
+    
         <?php
       } else{
         $sql="SELECT Descripcion,Id,TipoFondo,Fondo,Completa FROM seccion2 where Id = ".$row['Seccion']." ";
@@ -276,6 +315,8 @@
         ?>
         <section id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>'>
+          <BR>
+
             <?php
             $sql="SELECT Tipo1,Elemento1,Tipo2,Elemento2 FROM seccion2d where Seccion = ".$row['Seccion']."  order by Orden";
             $queryd = mysqli_query($con, $sql);
@@ -285,14 +326,15 @@
              <div class="col-md-6">
              <?php
               if ($Sessiond['Tipo1']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia FROM titulos where Id = ".$Sessiond['Elemento1'].";";
+                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento1'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
                 $Color=' color:'.$Objeto['color'];
                 $TipoGrafia =$Objeto['TipoGrafia'];
+                $Justificacion =$Objeto['Justificacion'];
                 ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='text-center BrandonBold <?php echo  $TipoGrafia;?>'><?php echo $Objeto['Texto'];?></p>
+                <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
           
                 <?php
               }
@@ -317,7 +359,7 @@
                 ?>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                   <div class="col-md-offset-2 col-md-8 ">
-					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class='img-thumbnail'  alt="Imagen" />
+					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>'  class="img-fluid"  alt="Imagen" />
                   </div>
                 </div>
                 <?php
@@ -438,19 +480,55 @@
                 </section>
                 <?php
               }
+              if ($Sessiond['Tipo1']=='Botonera'){
+                $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento1'].";";
+                $queryO = mysqli_query($con, $sql);
+                ?>
+                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
+                  <?php
+                  while($Objeto=mysqli_fetch_array($queryO)){
+                    $Enlace = $Objeto['Enlace'];
+                    $Imagen = $Objeto['Imagen'];
+                    $RBorder = $Objeto['RBorder'];
+                    $BGrosor = $Objeto['BGrosor'];
+                    $Descripcion = $Objeto['Descripcion'];
+                    $BColor = $Objeto['BColor'];
+                    ?>
+                    
+                    <div class="col-md-3" style="    padding-top: 15px;">
+                      <div class="text-center" style=' 
+                        border-width: <?php echo  $BGrosor;?>px;
+                        border-style: solid;
+                        border-color: <?php echo  $BColor;?>;
+                        border-radius:<?php echo  $RBorder;?>%;
+                        '>              
+                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
+                          
+                        </a>
+                      </div>   
+                    </div>
+                    <?php
+                  }
+                ?>
+                </div>
+                <br>
+               <?php
+              }
               ?>
               </div>
               <div class="col-md-6">
              <?php
               if ($Sessiond['Tipo2']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia FROM titulos where Id = ".$Sessiond['Elemento2'].";";
+                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento2'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
                 $Color=' color:'.$Objeto['color'];
                 $TipoGrafia =$Objeto['TipoGrafia'];
+                $Justificacion =$Objeto['Justificacion'];
                 ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='text-center BrandonBold <?php echo  $TipoGrafia;?>'><?php echo $Objeto['Texto'];?></p>
+                <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
           
                 <?php
               }
@@ -596,6 +674,41 @@
                 </section>
                 <?php
               }
+              if ($Sessiond['Tipo2']=='Botonera'){
+                $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento2'].";";
+                $queryO = mysqli_query($con, $sql);
+                ?>
+                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
+                  <?php
+                  while($Objeto=mysqli_fetch_array($queryO)){
+                    $Enlace = $Objeto['Enlace'];
+                    $Imagen = $Objeto['Imagen'];
+                    $RBorder = $Objeto['RBorder'];
+                    $BGrosor = $Objeto['BGrosor'];
+                    $Descripcion = $Objeto['Descripcion'];
+                    $BColor = $Objeto['BColor'];
+                    ?>
+                    
+                    <div class="col-md-3" style="    padding-top: 15px;">
+                      <div class="text-center" style=' 
+                        border-width: <?php echo  $BGrosor;?>px;
+                        border-style: solid;
+                        border-color: <?php echo  $BColor;?>;
+                        border-radius:<?php echo  $RBorder;?>%;
+                        '>              
+                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
+                          
+                        </a>
+                      </div>   
+                    </div>
+                    <?php
+                  }
+                ?>
+                </div>
+                <br>
+               <?php
+              }
               ?>
               </div>
             </div>
@@ -604,7 +717,6 @@
             ?>
           </div> 
         </section>
-        <br>
         <?php
       }
     }
