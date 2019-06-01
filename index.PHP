@@ -140,8 +140,8 @@
                 ?>
                 <BR>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
-					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class='img-thumbnail'  alt="Imagen" />
+                  <div class="col-md-offset-2 col-md-8 text-center">
+					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>'class="img-fluid"  alt="Imagen" />
                   </div> 
                 </div>
                 <?php
@@ -164,6 +164,16 @@
                 <?php
               }
               if ($Sessiond['Tipo']=='Carrusel'){
+                $sql="SELECT * FROM carrusel where Id = ".$Sessiond['Elemento'].";";
+                    $queryO = mysqli_query($con, $sql);
+                    $Objeto=mysqli_fetch_array($queryO);
+                    $Controles = $Objeto['Controles'];
+                    $Tamaño = $Objeto['Tamaño'];
+                    $offset = (12-$Tamaño);
+                    if ($offset<>0){
+                      $offset=$offset/2;
+                    }
+
                 ?>
                 <style>
                 .container-fluid{
@@ -171,50 +181,69 @@
                   padding-left: 0;
                 }
                 </style>
-                <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                  <div class="carousel-inner">
-                    <?php
-                    $h=0;
-                     $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento'].";";
-                     $queryO = mysqli_query($con, $sql);
-                    while($Objeto=mysqli_fetch_array($queryO)){
-                      $Imagen = $Objeto['Imagen'];
-                      $Titulo = $Objeto['Titulo'];
-                      $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
-                      $TColor=' color:'.$Objeto['TColor'];
-                      $TTipografia =$Objeto['TTipografia'];
-                      $TJustificacion =$Objeto['TJustificacion'];
-                      $Parrafo = $Objeto['Parrafo'];
-                      $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
-                      $PColor=' color:'.$Objeto['PColor'];
-                      $PTipografia =$Objeto['PTipografia'];
-                      $PJustificacion =$Objeto['PJustificacion'];
-                      if($h==0){
-                        $active ='active';
-                      }else{
-                        $active='';
+                <div class="row" style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                  <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <?php
+                      $h=0;
+                      $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      while($Objeto=mysqli_fetch_array($queryO)){
+                        $Imagen = $Objeto['Imagen'];
+                        $Titulo = $Objeto['Titulo'];
+                        $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                        $TColor=' color:'.$Objeto['TColor'];
+                        $TTipografia =$Objeto['TTipografia'];
+                        $TJustificacion =$Objeto['TJustificacion'];
+                        $Parrafo = $Objeto['Parrafo'];
+                        $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                        $PColor=' color:'.$Objeto['PColor'];
+                        $PTipografia =$Objeto['PTipografia'];
+                        $PJustificacion =$Objeto['PJustificacion'];
+                        if($h==0){
+                          $active ='active';
+                        }else{
+                          $active='';
+                        }
+                        ?>
+                        <div class="carousel-item <?php echo $active; ?>">
+                          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
+                          <div class="carousel-caption d-none d-md-block">
+                            <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                            <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                          </div>
+                        </div>
+                        <?php
+                        $h=1;
+                      }
+                    ?>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="prev">
+                      <?php
+                      if($Controles=='True'){
+                        ?>
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                        <?php
                       }
                       ?>
-                      <div class="carousel-item <?php echo $active; ?>">
-                        <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                          <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
-                          <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
-                        </div>
-                      </div>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="next">
                       <?php
-                      $h=1;
-                    }
-                    ?>
+                      if($Controles=='True'){
+                        ?>
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                        <?php
+                      }
+                      ?>
+                      
+                    </a>
+                      
+                    
                   </div>
-                  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                  </a>
+                </div>
                 </div>
                 <?php
               }
@@ -236,8 +265,8 @@
                       ?>
                       <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
                         <div class="portfolio-wrap">
-                          <figure class="catalogo"><img src="data:image/jpg;base64,<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                            <a id="p1" href="data:image/jpg;base64,<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                          <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
+                            <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
                               <i class="fas fa-eye"></i>
                             </a>
                           </figure>
@@ -264,6 +293,7 @@
                     $BGrosor = $Objeto['BGrosor'];
                     $Descripcion = $Objeto['Descripcion'];
                     $BColor = $Objeto['BColor'];
+                    $RBorderI = $Objeto['RBorderI'];
                     ?>
                     
                     <div class="col-md-3" style="    padding-top: 15px;">
@@ -274,7 +304,7 @@
                         border-radius:<?php echo  $RBorder;?>%;
                         '>              
                         <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
-                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
+                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image">
                           
                         </a>
                       </div>   
@@ -460,8 +490,8 @@
                       
                         <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
                           <div class="portfolio-wrap">
-                            <figure class="catalogo"><img src="data:image/jpg;base64,<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                              <a id="p1" href="data:image/jpg;base64,<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                            <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
+                              <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
                                 <i class="fas fa-eye"></i>
                               </a>
                             </figure>
@@ -654,8 +684,8 @@
                       
                         <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
                           <div class="portfolio-wrap">
-                            <figure class="catalogo"><img src="data:image/jpg;base64,<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                              <a id="p1" href="data:image/jpg;base64,<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                            <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
+                              <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
                                 <i class="fas fa-eye"></i>
                               </a>
                             </figure>
