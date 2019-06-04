@@ -14,6 +14,22 @@
 @font-face {font-family: Calibri Light Italic;src: url(Calibri/calibrili.ttf);}
 @font-face {font-family: Calibri Bold Italic;src: url(Calibri/calibriz.ttf);}
 
+.bajar{
+	position: fixed;
+	bottom: 15px;
+	right: 15px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: #009CDE;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	cursor: pointer;
+}
+
+
 .BrandonBold{font-family: Brandon Bold;}
 .BrandonLight{font-family: Brandon Light;}
 .BrandonBlack{font-family: Brandon Black;}
@@ -63,7 +79,7 @@ p{padding:0;margin:0 0 30px 0;}
 h1, h2, h3, h4, h5, h6{font-family: Brandon Bold;font-weight:400;margin:0 0 20px 0;padding:0;}
 .back-to-top{position:fixed;display:none;background:#00a3e3;color:#fff;display:inline-block;width:44px;height:44px;text-align:center;line-height:1;font-size:16px;border-radius:50%;right:15px;bottom:15px;transition:background 0.5s;z-index:11;}
 .back-to-top i{padding-top:12px;color:#fff;}
-#inicio{padding-top: 0px;}
+#inicio{padding-top: 45px;}
 @media (max-width:768px){.back-to-top{bottom:15px;}}
 #header{height:85px;position:fixed;left:0;top:0;right:0;transition:all 0.5s;z-index:997;background:rgba(0,42,58,1);}
 #header.header-scrolled{background:rgba(0,42,58,1);padding-top:1px;height:85px;padding-left:0px;transition:all 0.5s;}
@@ -238,3 +254,13 @@ color:rgb(255,209,0);
 #footer .footer-top .footer-newsletter{margin-bottom:30px;}
 #footer .footer-top .footer-newsletter input[type="email"]{border:0;padding:6px 8px;width:65%;}
 #footer .footer-top .footer-newsletter input[type="submit"]{background:#00a3e3;border:0;width:35%;padding:6px 0;text-align:center;color:#fff;transition:0.3s;cursor:pointer;}#footer .footer-top .footer-newsletter input[type="submit"]:hover{background:#13a456;}#footer .copyright{text-align:center;padding-top:30px;}#footer .credits{text-align:center;font-size:13px;color:#ddd;}
+
+.btn-primary {
+	background-color: #009CDE;
+	border-color: #5086d1; }
+	.btn-primary:hover, .btn-primary:focus {
+	  background-color: #004F71;
+	  border-color: #004F71; }
+	.btn-primary.active, .btn-primary.active:focus, .btn-primary.active.focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary:active.focus {
+	  background-color: #002A3A;
+	  border-color: #002A3A; }

@@ -1,3 +1,7 @@
+<?php
+  require_once ("config/db.php");
+  require_once ("config/conexion.php");
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -43,24 +47,39 @@
 </head>
 
 <body>
-  <header id="header">
-    <div class="container-fluid">
-      <div id="logo" class="pull-left"><a href="#intro" class="scrollto">
-          <img src="img/logo-buenos-momentos.png" class="img-fluid" alt="" style="height: 80px;">
+<header>
+        <div class="fixed-top">
+            <nav class="navbar   navbar-dark  bg-core ">
 
-        </a></div>
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li class="menu-active"><a href="index.php">INICIO</a></li>
-         
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <div id="inicio"></div>
+                <div class="m-lg-auto">
+
+                    <img src="img/logo-buenos-momentos.png" class="img-fluid" alt="Responsive image" width="200px">
+
+
+                </div>
+            </nav>
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="container justify-content-center">
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav justify-content-center m-lg-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link Calibri" href="index.php">Inicio <span class="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+  <div id="inicio">&nbsp;</div>
+  <span class="fas fa-chevron-down bajar"></span>
+  
   <?php
-  require_once ("config/db.php");
-  require_once ("config/conexion.php");
 
   if (isset($_GET['Id'])) {
     $Id=$_GET['Id'];
@@ -94,7 +113,7 @@
         }
 
         ?>
-        <Div id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
+        <Div class='Contenedores' id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>' >
           
             <?php
@@ -110,7 +129,6 @@
                 $TipoGrafia =$Objeto['TipoGrafia'];
                 $Justificacion =$Objeto['Justificacion'];
                 ?>
-                <BR>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                   <div class="col-md-12 "> 
                     <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
@@ -127,21 +145,36 @@
                 $TipoGrafia =$Objeto['TipoGrafia'];
                 $Justificacion =$Objeto['Justificacion'];
                 ?>
-                <BR>
-                <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
-          
+                <div class="row">
+                  <div class="col-md-12 "> 
+                    <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                    </div>
+                </div>
                 <?php
               }
               if ($Sessiond['Tipo']=='Imagen'){
-                $sql="SELECT Imagen FROM imagenes where Id = ".$Sessiond['Elemento'].";";
+                $sql="SELECT * FROM imagenes where Id = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Imagen = $Objeto['Imagen'];
+                $Tamaño = $Objeto['Tamaño'];
+                $Justificacion = $Objeto['Justificacion'];
+                
+                if( $Justificacion=='text-center'){
+                  $offset = (12-$Tamaño);
+                  if ($offset<>0){
+                    $offset=$offset/2;
+                    $offset='col-md-offset-'.$offset.' text-center';
+                  }else{
+                    $offset='text-center';
+                  }
+                }else{
+                  $offset='';
+                }  
                 ?>
-                <BR>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 text-center">
-					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>'class="img-fluid"  alt="Imagen" />
+                <div class="row">
+                 <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+					          <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
                   </div> 
                 </div>
                 <?php
@@ -151,11 +184,24 @@
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Video = $Objeto['Video'];
-				        $Autoplay = $Objeto['Autoplay'];
+                $Autoplay = $Objeto['Autoplay'];
+                $Tamaño = $Objeto['Tamaño'];
+                $Justificacion = $Objeto['Justificacion'];
+                
+                if( $Justificacion=='text-center'){
+                  $offset = (12-$Tamaño);
+                  if ($offset<>0){
+                    $offset=$offset/2;
+                    $offset='col-md-offset-'.$offset.' text-center';
+                  }else{
+                    $offset='text-center';
+                  }
+                }else{
+                  $offset='';
+                }   
                 ?>
-                <BR>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
+                <div class="row">
+                  <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                     <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
                       <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
                     </video>
@@ -181,69 +227,66 @@
                   padding-left: 0;
                 }
                 </style>
-                <div class="row" style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
-                <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
-                  <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <?php
-                      $h=0;
-                      $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento'].";";
-                      $queryO = mysqli_query($con, $sql);
-                      while($Objeto=mysqli_fetch_array($queryO)){
-                        $Imagen = $Objeto['Imagen'];
-                        $Titulo = $Objeto['Titulo'];
-                        $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
-                        $TColor=' color:'.$Objeto['TColor'];
-                        $TTipografia =$Objeto['TTipografia'];
-                        $TJustificacion =$Objeto['TJustificacion'];
-                        $Parrafo = $Objeto['Parrafo'];
-                        $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
-                        $PColor=' color:'.$Objeto['PColor'];
-                        $PTipografia =$Objeto['PTipografia'];
-                        $PJustificacion =$Objeto['PJustificacion'];
-                        if($h==0){
-                          $active ='active';
-                        }else{
-                          $active='';
+                <div class="row" style=" padding-left: 0px;padding-right: 0px;">
+                  <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                   <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner">
+                        <?php
+                        $h=0;
+                        $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento'].";";
+                        $queryO = mysqli_query($con, $sql);
+                        while($Objeto=mysqli_fetch_array($queryO)){
+                          $Imagen = $Objeto['Imagen'];
+                          $Titulo = $Objeto['Titulo'];
+                          $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                          $TColor=' color:'.$Objeto['TColor'];
+                          $TTipografia =$Objeto['TTipografia'];
+                          $TJustificacion =$Objeto['TJustificacion'];
+                          $Parrafo = $Objeto['Parrafo'];
+                          $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                          $PColor=' color:'.$Objeto['PColor'];
+                          $PTipografia =$Objeto['PTipografia'];
+                          $PJustificacion =$Objeto['PJustificacion'];
+                          if($h==0){
+                            $active ='active';
+                          }else{
+                            $active='';
+                          }
+                          ?>
+                          <div class="carousel-item <?php echo $active; ?>">
+                            <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                              <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                              <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                            </div>
+                          </div>
+                          <?php
+                          $h=1;
                         }
                         ?>
-                        <div class="carousel-item <?php echo $active; ?>">
-                          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
-                          <div class="carousel-caption d-none d-md-block">
-                            <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
-                            <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
-                          </div>
-                        </div>
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="prev">
                         <?php
-                        $h=1;
-                      }
-                    ?>
+                        if($Controles=='True'){
+                          ?>
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                          <?php
+                        }
+                        ?>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="next">
+                        <?php
+                        if($Controles=='True'){
+                          ?>
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                          <?php
+                        }
+                        ?>
+                      </a>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="prev">
-                      <?php
-                      if($Controles=='True'){
-                        ?>
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                        <?php
-                      }
-                      ?>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" role="button" data-slide="next">
-                      <?php
-                      if($Controles=='True'){
-                        ?>
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                        <?php
-                      }
-                      ?>
-                      
-                    </a>
-                      
-                    
                   </div>
-                </div>
                 </div>
                 <?php
               }
@@ -296,7 +339,7 @@
                     $RBorderI = $Objeto['RBorderI'];
                     ?>
                     
-                    <div class="col-md-3" style="    padding-top: 15px;">
+                    <div class="col-md-4" style="padding-top: 15px; padding-bottom: 15px;">
                       <div class="text-center" style=' 
                         border-width: <?php echo  $BGrosor;?>px;
                         border-style: solid;
@@ -307,20 +350,35 @@
                           <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image">
                           
                         </a>
+                        <h3 style ="color: <?php echo $BColor;?>"> <?php echo $Descripcion;?></h3>
                       </div>   
                     </div>
                     <?php
                   }
                 ?>
                 </div>
-                <br>
+              
                <?php
               }
-
+              if($Sessiond['Tipo']=='Boton'){
+                $sql="SELECT * FROM Boton where Id = ".$Sessiond['Elemento'].";";
+                $queryO = mysqli_query($con, $sql);
+                $Objeto=mysqli_fetch_array($queryO);
+                $Enlace = $Objeto['Enlace'];
+                $Texto = $Objeto['Texto'];
+                $Justificacion = $Objeto['Justificacion'];
+                ?>
+                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                <div class=' col-md-12 <?php echo $Justificacion; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                <a href="index.php?Id=<?php echo $Enlace; ?>" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                  </div> 
+                </div>
+                <?php
+              }
             }
             ?>
           </div> 
-          </Div>
+        </Div>
     
         <?php
       } else{
@@ -343,410 +401,539 @@
         }
 
         ?>
-        <section id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
-          <div class='<?php echo $Container;?>'>
-          <BR>
-
+        <Div class='Contenedores' id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
+          <div class='<?php echo $Container;?>' >
             <?php
             $sql="SELECT Tipo1,Elemento1,Tipo2,Elemento2 FROM seccion2d where Seccion = ".$row['Seccion']."  order by Orden";
             $queryd = mysqli_query($con, $sql);
             while($Sessiond=mysqli_fetch_array($queryd)){
-             ?>
-             <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-             <div class="col-md-6">
-             <?php
-              if ($Sessiond['Tipo1']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento1'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
-                $Color=' color:'.$Objeto['color'];
-                $TipoGrafia =$Objeto['TipoGrafia'];
-                $Justificacion =$Objeto['Justificacion'];
-                ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
-          
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Parrafo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento1'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
-                $Color=' color:'.$Objeto['color'];
-                $TipoGrafia =$Objeto['TipoGrafia'];
-                $Justificacion =$Objeto['Justificacion'];
-                ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
-          
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Imagen'){
-                $sql="SELECT Imagen FROM imagenes where Id = ".$Sessiond['Elemento1'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Imagen = $Objeto['Imagen'];
-                ?>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
-					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>'  class="img-fluid"  alt="Imagen" />
-                  </div>
-                </div>
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Video'){
-                $sql="SELECT * FROM Videos where Id = ".$Sessiond['Elemento1'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Video = $Objeto['Video'];
-				        $Autoplay = $Objeto['Autoplay'];
-                ?>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
-                    <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
-                      <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
-                    </video>
-                  </div> 
-                </div>  
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Carrusel'){
-               
-                ?>
-                <style>
-                .container-fluid{
-                  padding-right: 0;
-                  padding-left: 0;
-                }
-                </style>
-                <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                  <div class="carousel-inner">
-                    <?php
-                    $h=0;
-                     $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento1'].";";
-                     $queryO = mysqli_query($con, $sql);
-                    while($Objeto=mysqli_fetch_array($queryO)){
-                      $Imagen = $Objeto['Imagen'];
-                      $Titulo = $Objeto['Titulo'];
-                      $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
-                      $TColor=' color:'.$Objeto['TColor'];
-                      $TTipografia =$Objeto['TTipografia'];
-                      $TJustificacion =$Objeto['TJustificacion'];
-                      $Parrafo = $Objeto['Parrafo'];
-                      $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
-                      $PColor=' color:'.$Objeto['PColor'];
-                      $PTipografia =$Objeto['PTipografia'];
-                      $PJustificacion =$Objeto['PJustificacion'];
-                      if($h==0){
-                        $active ='active';
-                      }else{
-                        $active='';
-                      }
+            ?>
+              <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                <div class="col-md-6">
+                  <?php
+                    if ($Sessiond['Tipo1']=='Titulo'){
+                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Color=' color:'.$Objeto['color'];
+                      $TipoGrafia =$Objeto['TipoGrafia'];
+                      $Justificacion =$Objeto['Justificacion'];
                       ?>
-                      <div class="carousel-item <?php echo $active; ?>">
-                        <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                          <p style='<?php echo $TTamaño.$TColor;?>' class='text-center BrandonBold <?php echo  $TTipografia.' '.$TJustificacio;?>'><?php echo $Objeto['Titulo'];?></p>
-                          <p style='<?php echo $PTamaño.$PColor;?>' class='text-center BrandonBold <?php echo  $PTipografia.' '.$PJustificacio;?>'><?php echo $Objeto['Parrafo'];?></p>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="col-md-12 "> 
+                          <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                         </div>
                       </div>
                       <?php
-                      $h=1;
                     }
-                    ?>
-                    
-                  </div>
-                  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </div>
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Album'){
-               
-                ?>
-                <style>
-                .container-fluid{
-                  padding-right: 0;
-                  padding-left: 0;
-                }
-                </style>
-                <section id="portfolio" class="section-bg container">
-                <div class="row portfolio-container">
-                    <?php
-                 
-                     $sql="SELECT * FROM albumd where Album = ".$Sessiond['Elemento1']."  order by Orden";
-                     $queryO = mysqli_query($con, $sql);
-                    while($Objeto=mysqli_fetch_array($queryO)){
-                      $Imagen = $Objeto['Imagen'];
-                     
-                     
+                    if ($Sessiond['Tipo1']=='Parrafo'){
+                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Color=' color:'.$Objeto['color'];
+                      $TipoGrafia =$Objeto['TipoGrafia'];
+                      $Justificacion =$Objeto['Justificacion'];
                       ?>
-                      
-                        <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
-                          <div class="portfolio-wrap">
-                            <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                              <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
-                                <i class="fas fa-eye"></i>
-                              </a>
-                            </figure>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="col-md-12 "> 
+                          <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                           </div>
-                        </div>
-                     
-
-
-
-                    
+                      </div>
                       <?php
-                      $h=1;
                     }
-                    ?>
-                   </div>
-                </section>
-                <?php
-              }
-              if ($Sessiond['Tipo1']=='Botonera'){
-                $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento1'].";";
-                $queryO = mysqli_query($con, $sql);
-                ?>
-                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
-                  <?php
-                  while($Objeto=mysqli_fetch_array($queryO)){
-                    $Enlace = $Objeto['Enlace'];
-                    $Imagen = $Objeto['Imagen'];
-                    $RBorder = $Objeto['RBorder'];
-                    $BGrosor = $Objeto['BGrosor'];
-                    $Descripcion = $Objeto['Descripcion'];
-                    $BColor = $Objeto['BColor'];
-                    ?>
-                    
-                    <div class="col-md-3" style="    padding-top: 15px;">
-                      <div class="text-center" style=' 
-                        border-width: <?php echo  $BGrosor;?>px;
-                        border-style: solid;
-                        border-color: <?php echo  $BColor;?>;
-                        border-radius:<?php echo  $RBorder;?>%;
-                        '>              
-                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
-                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
-                          
-                        </a>
-                      </div>   
-                    </div>
-                    <?php
-                  }
-                ?>
-                </div>
-                <br>
-               <?php
-              }
-              ?>
-              </div>
-              <div class="col-md-6">
-             <?php
-              if ($Sessiond['Tipo2']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento2'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
-                $Color=' color:'.$Objeto['color'];
-                $TipoGrafia =$Objeto['TipoGrafia'];
-                $Justificacion =$Objeto['Justificacion'];
-                ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
-          
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Parrafo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento2'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
-                $Color=' color:'.$Objeto['color'];
-                $TipoGrafia =$Objeto['TipoGrafia'];
-                $Justificacion =$Objeto['Justificacion'];
-                ?>
-                <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
-          
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Imagen'){
-                $sql="SELECT Imagen FROM imagenes where Id = ".$Sessiond['Elemento2'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Imagen = $Objeto['Imagen'];
-                ?>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
-					          <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class='img-thumbnail'  alt="Imagen" />
-                  </div> 
-                </div>
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Video'){
-                $sql="SELECT * FROM Videos where Id = ".$Sessiond['Elemento2'].";";
-                $queryO = mysqli_query($con, $sql);
-                $Objeto=mysqli_fetch_array($queryO);
-                $Video = $Objeto['Video'];
-				        $Autoplay = $Objeto['Autoplay'];
-                ?>
-                <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
-                  <div class="col-md-offset-2 col-md-8 ">
-						        <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
-                      <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
-                    </video>
-                  </div> 
-                </div>
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Carrusel'){
-               
-                ?>
-                <style>
-                .container-fluid{
-                  padding-right: 0;
-                  padding-left: 0;
-                }
-                </style>
-                <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                  <div class="carousel-inner">
-                    <?php
-                    $h=0;
-                     $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento2'].";";
-                     $queryO = mysqli_query($con, $sql);
-                    while($Objeto=mysqli_fetch_array($queryO)){
+                    if ($Sessiond['Tipo1']=='Imagen'){
+                      $sql="SELECT * FROM imagenes where Id = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
                       $Imagen = $Objeto['Imagen'];
-                      $Titulo = $Objeto['Titulo'];
-                      $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
-                      $TColor=' color:'.$Objeto['TColor'];
-                      $TTipografia =$Objeto['TTipografia'];
-                      $TJustificacion =$Objeto['TJustificacion'];
-                      $Parrafo = $Objeto['Parrafo'];
-                      $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
-                      $PColor=' color:'.$Objeto['PColor'];
-                      $PTipografia =$Objeto['PTipografia'];
-                      $PJustificacion =$Objeto['PJustificacion'];
-                      if($h==0){
-                        $active ='active';
+                      $Tamaño = $Objeto['Tamaño'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      
+                      if( $Justificacion=='text-center'){
+                        $offset = (12-$Tamaño);
+                        if ($offset<>0){
+                          $offset=$offset/2;
+                          $offset='col-md-offset-'.$offset.' text-center';
+                        }else{
+                          $offset='text-center';
+                        }
                       }else{
-                        $active='';
-                      }
+                        $offset='';
+                      }  
                       ?>
-                      <div class="carousel-item <?php echo $active; ?>">
-                        <img src='data:image/jpg;base64,<?php echo $Imagen; ?>' class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                          <p style='<?php echo $TTamaño.$TColor;?>' class='text-center BrandonBold <?php echo  $TTipografia.' '.$TJustificacio;?>'><?php echo $Objeto['Titulo'];?></p>
-                          <p style='<?php echo $PTamaño.$PColor;?>' class='text-center BrandonBold <?php echo  $PTipografia.' '.$PJustificacio;?>'><?php echo $Objeto['Parrafo'];?></p>
+                      <div class="row">
+                      <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                          <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo1']=='Video'){
+                      $sql="SELECT * FROM Videos where Id = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Video = $Objeto['Video'];
+                      $Autoplay = $Objeto['Autoplay'];
+                      $Tamaño = $Objeto['Tamaño'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      
+                      if( $Justificacion=='text-center'){
+                        $offset = (12-$Tamaño);
+                        if ($offset<>0){
+                          $offset=$offset/2;
+                          $offset='col-md-offset-'.$offset.' text-center';
+                        }else{
+                          $offset='text-center';
+                        }
+                      }else{
+                        $offset='';
+                      }   
+                      ?>
+                      <div class="row">
+                        <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                          <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
+                            <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
+                          </video>
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo1']=='Carrusel'){
+                      $sql="SELECT * FROM carrusel where Id = ".$Sessiond['Elemento1'].";";
+                          $queryO = mysqli_query($con, $sql);
+                          $Objeto=mysqli_fetch_array($queryO);
+                          $Controles = $Objeto['Controles'];
+                          $Tamaño = $Objeto['Tamaño'];
+                          $offset = (12-$Tamaño);
+                          if ($offset<>0){
+                            $offset=$offset/2;
+                          }
+
+                      ?>
+                      <style>
+                      .container-fluid{
+                        padding-right: 0;
+                        padding-left: 0;
+                      }
+                      </style>
+                      <div class="row" style=" padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento1'];?>" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                              <?php
+                              $h=0;
+                              $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento1'].";";
+                              $queryO = mysqli_query($con, $sql);
+                              while($Objeto=mysqli_fetch_array($queryO)){
+                                $Imagen = $Objeto['Imagen'];
+                                $Titulo = $Objeto['Titulo'];
+                                $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                                $TColor=' color:'.$Objeto['TColor'];
+                                $TTipografia =$Objeto['TTipografia'];
+                                $TJustificacion =$Objeto['TJustificacion'];
+                                $Parrafo = $Objeto['Parrafo'];
+                                $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                                $PColor=' color:'.$Objeto['PColor'];
+                                $PTipografia =$Objeto['PTipografia'];
+                                $PJustificacion =$Objeto['PJustificacion'];
+                                if($h==0){
+                                  $active ='active';
+                                }else{
+                                  $active='';
+                                }
+                                ?>
+                                <div class="carousel-item <?php echo $active; ?>">
+                                  <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
+                                  <div class="carousel-caption d-none d-md-block">
+                                    <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                                    <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                                  </div>
+                                </div>
+                                <?php
+                                $h=1;
+                              }
+                              ?>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento1'];?>" role="button" data-slide="prev">
+                              <?php
+                              if($Controles=='True'){
+                                ?>
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                                <?php
+                              }
+                              ?>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento1'];?>" role="button" data-slide="next">
+                              <?php
+                              if($Controles=='True'){
+                                ?>
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                                <?php
+                              }
+                              ?>
+                            </a>
+                          </div>
                         </div>
                       </div>
                       <?php
-                      $h=1;
                     }
-                    ?>
-                    
-                  </div>
-                  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </div>
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Album'){
-               
-                ?>
-                <style>
-                .container-fluid{
-                  padding-right: 0;
-                  padding-left: 0;
-                }
-                </style>
-                <section id="portfolio" class="section-bg container">
-                <div class="row portfolio-container">
-                    <?php
-                 
-                     $sql="SELECT * FROM albumd where Album = ".$Sessiond['Elemento2']."  order by Orden";
-                     $queryO = mysqli_query($con, $sql);
-                    while($Objeto=mysqli_fetch_array($queryO)){
-                      $Imagen = $Objeto['Imagen'];
-                     
-                     
+                    if ($Sessiond['Tipo1']=='Album'){
                       ?>
-                      
-                        <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
-                          <div class="portfolio-wrap">
-                            <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                              <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
-                                <i class="fas fa-eye"></i>
+                      <style>
+                      .container-fluid{
+                        padding-right: 0;
+                        padding-left: 0;
+                      }
+                      </style>
+                      <section id="portfolio" class="section-bg container">
+                        <div class="row portfolio-container">
+                          <?php
+                          $sql="SELECT * FROM albumd where Album = ".$Sessiond['Elemento1']."  order by Orden";
+                          $queryO = mysqli_query($con, $sql);
+                          while($Objeto=mysqli_fetch_array($queryO)){
+                            $Imagen = $Objeto['Imagen'];
+                            ?>
+                            <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
+                              <div class="portfolio-wrap">
+                                <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
+                                  <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                                    <i class="fas fa-eye"></i>
+                                  </a>
+                                </figure>
+                              </div>
+                            </div>
+                            <?php
+                            $h=1;
+                          }
+                          ?>
+                        </div>
+                      </section>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo1']=='Botonera'){
+                      $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      ?>
+                      <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
+                        <?php
+                        while($Objeto=mysqli_fetch_array($queryO)){
+                          $Enlace = $Objeto['Enlace'];
+                          $Imagen = $Objeto['Imagen'];
+                          $RBorder = $Objeto['RBorder'];
+                          $BGrosor = $Objeto['BGrosor'];
+                          $Descripcion = $Objeto['Descripcion'];
+                          $BColor = $Objeto['BColor'];
+                          $RBorderI = $Objeto['RBorderI'];
+                          ?>
+                          
+                          <div class="col-md-4" style="padding-top: 15px; padding-bottom: 15px;">
+                            <div class="text-center" style=' 
+                              border-width: <?php echo  $BGrosor;?>px;
+                              border-style: solid;
+                              border-color: <?php echo  $BColor;?>;
+                              border-radius:<?php echo  $RBorder;?>%;
+                              '>              
+                              <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                                <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image">
+                                
                               </a>
-                            </figure>
+                              <h3 style ="color: <?php echo $BColor;?>"> <?php echo $Descripcion;?></h3>
+                            </div>   
+                          </div>
+                          <?php
+                        }
+                      ?>
+                      </div>
+                    
+                    <?php
+                    }
+                    if($Sessiond['Tipo1']=='Boton'){
+                      $sql="SELECT * FROM Boton where Id = ".$Sessiond['Elemento1'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Enlace = $Objeto['Enlace'];
+                      $Texto = $Objeto['Texto'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      ?>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                      <div class=' col-md-12 <?php echo $Justificacion; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                      <a href="index.php?Id=<?php echo $Enlace; ?>" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                  ?>
+                </div>
+                <div class="col-md-6">
+                  <?php
+                    if ($Sessiond['Tipo2']=='Titulo'){
+                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Color=' color:'.$Objeto['color'];
+                      $TipoGrafia =$Objeto['TipoGrafia'];
+                      $Justificacion =$Objeto['Justificacion'];
+                      ?>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="col-md-12 "> 
+                          <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                        </div>
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo2']=='Parrafo'){
+                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Color=' color:'.$Objeto['color'];
+                      $TipoGrafia =$Objeto['TipoGrafia'];
+                      $Justificacion =$Objeto['Justificacion'];
+                      ?>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="col-md-12 "> 
+                          <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                          </div>
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo2']=='Imagen'){
+                      $sql="SELECT * FROM imagenes where Id = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Imagen = $Objeto['Imagen'];
+                      $Tamaño = $Objeto['Tamaño'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      
+                      if( $Justificacion=='text-center'){
+                        $offset = (12-$Tamaño);
+                        if ($offset<>0){
+                          $offset=$offset/2;
+                          $offset='col-md-offset-'.$offset.' text-center';
+                        }else{
+                          $offset='text-center';
+                        }
+                      }else{
+                        $offset='';
+                      }  
+                      ?>
+                      <div class="row">
+                      <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                          <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo2']=='Video'){
+                      $sql="SELECT * FROM Videos where Id = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Video = $Objeto['Video'];
+                      $Autoplay = $Objeto['Autoplay'];
+                      $Tamaño = $Objeto['Tamaño'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      
+                      if( $Justificacion=='text-center'){
+                        $offset = (12-$Tamaño);
+                        if ($offset<>0){
+                          $offset=$offset/2;
+                          $offset='col-md-offset-'.$offset.' text-center';
+                        }else{
+                          $offset='text-center';
+                        }
+                      }else{
+                        $offset='';
+                      }   
+                      ?>
+                      <div class="row">
+                        <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                          <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
+                            <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
+                          </video>
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo2']=='Carrusel'){
+                      $sql="SELECT * FROM carrusel where Id = ".$Sessiond['Elemento2'].";";
+                          $queryO = mysqli_query($con, $sql);
+                          $Objeto=mysqli_fetch_array($queryO);
+                          $Controles = $Objeto['Controles'];
+                          $Tamaño = $Objeto['Tamaño'];
+                          $offset = (12-$Tamaño);
+                          if ($offset<>0){
+                            $offset=$offset/2;
+                          }
+
+                      ?>
+                      <style>
+                      .container-fluid{
+                        padding-right: 0;
+                        padding-left: 0;
+                      }
+                      </style>
+                      <div class="row" style=" padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento2'];?>" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                              <?php
+                              $h=0;
+                              $sql="SELECT * FROM carruseld where Carrusel = ".$Sessiond['Elemento2'].";";
+                              $queryO = mysqli_query($con, $sql);
+                              while($Objeto=mysqli_fetch_array($queryO)){
+                                $Imagen = $Objeto['Imagen'];
+                                $Titulo = $Objeto['Titulo'];
+                                $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                                $TColor=' color:'.$Objeto['TColor'];
+                                $TTipografia =$Objeto['TTipografia'];
+                                $TJustificacion =$Objeto['TJustificacion'];
+                                $Parrafo = $Objeto['Parrafo'];
+                                $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                                $PColor=' color:'.$Objeto['PColor'];
+                                $PTipografia =$Objeto['PTipografia'];
+                                $PJustificacion =$Objeto['PJustificacion'];
+                                if($h==0){
+                                  $active ='active';
+                                }else{
+                                  $active='';
+                                }
+                                ?>
+                                <div class="carousel-item <?php echo $active; ?>">
+                                  <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
+                                  <div class="carousel-caption d-none d-md-block">
+                                    <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                                    <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                                  </div>
+                                </div>
+                                <?php
+                                $h=1;
+                              }
+                              ?>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento2'];?>" role="button" data-slide="prev">
+                              <?php
+                              if($Controles=='True'){
+                                ?>
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                                <?php
+                              }
+                              ?>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleCaptions<?php echo $Sessiond['Elemento2'];?>" role="button" data-slide="next">
+                              <?php
+                              if($Controles=='True'){
+                                ?>
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                                <?php
+                              }
+                              ?>
+                            </a>
                           </div>
                         </div>
-                     
-
-
-
-                    
+                      </div>
                       <?php
-                      $h=1;
                     }
-                    ?>
-                   </div>
-                </section>
-                <?php
-              }
-              if ($Sessiond['Tipo2']=='Botonera'){
-                $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento2'].";";
-                $queryO = mysqli_query($con, $sql);
-                ?>
-                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
-                  <?php
-                  while($Objeto=mysqli_fetch_array($queryO)){
-                    $Enlace = $Objeto['Enlace'];
-                    $Imagen = $Objeto['Imagen'];
-                    $RBorder = $Objeto['RBorder'];
-                    $BGrosor = $Objeto['BGrosor'];
-                    $Descripcion = $Objeto['Descripcion'];
-                    $BColor = $Objeto['BColor'];
-                    ?>
-                    
-                    <div class="col-md-3" style="    padding-top: 15px;">
-                      <div class="text-center" style=' 
-                        border-width: <?php echo  $BGrosor;?>px;
-                        border-style: solid;
-                        border-color: <?php echo  $BColor;?>;
-                        border-radius:<?php echo  $RBorder;?>%;
-                        '>              
-                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
-                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid   " alt="Responsive image">
+                    if ($Sessiond['Tipo2']=='Album'){
+                      ?>
+                      <style>
+                      .container-fluid{
+                        padding-right: 0;
+                        padding-left: 0;
+                      }
+                      </style>
+                      <section id="portfolio" class="section-bg container">
+                        <div class="row portfolio-container">
+                          <?php
+                          $sql="SELECT * FROM albumd where Album = ".$Sessiond['Elemento2']."  order by Orden";
+                          $queryO = mysqli_query($con, $sql);
+                          while($Objeto=mysqli_fetch_array($queryO)){
+                            $Imagen = $Objeto['Imagen'];
+                            ?>
+                            <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
+                              <div class="portfolio-wrap">
+                                <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
+                                  <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                                    <i class="fas fa-eye"></i>
+                                  </a>
+                                </figure>
+                              </div>
+                            </div>
+                            <?php
+                            $h=1;
+                          }
+                          ?>
+                        </div>
+                      </section>
+                      <?php
+                    }
+                    if ($Sessiond['Tipo2']=='Botonera'){
+                      $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      ?>
+                      <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
+                        <?php
+                        while($Objeto=mysqli_fetch_array($queryO)){
+                          $Enlace = $Objeto['Enlace'];
+                          $Imagen = $Objeto['Imagen'];
+                          $RBorder = $Objeto['RBorder'];
+                          $BGrosor = $Objeto['BGrosor'];
+                          $Descripcion = $Objeto['Descripcion'];
+                          $BColor = $Objeto['BColor'];
+                          $RBorderI = $Objeto['RBorderI'];
+                          ?>
                           
-                        </a>
-                      </div>   
-                    </div>
+                          <div class="col-md-4" style="padding-top: 15px; padding-bottom: 15px;">
+                            <div class="text-center" style=' 
+                              border-width: <?php echo  $BGrosor;?>px;
+                              border-style: solid;
+                              border-color: <?php echo  $BColor;?>;
+                              border-radius:<?php echo  $RBorder;?>%;
+                              '>              
+                              <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                                <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image">
+                                
+                              </a>
+                              <h3 style ="color: <?php echo $BColor;?>"> <?php echo $Descripcion;?></h3>
+                            </div>   
+                          </div>
+                          <?php
+                        }
+                      ?>
+                      </div>
+                    
                     <?php
-                  }
-                ?>
+                    }
+                    if($Sessiond['Tipo2']=='Boton'){
+                      $sql="SELECT * FROM Boton where Id = ".$Sessiond['Elemento2'].";";
+                      $queryO = mysqli_query($con, $sql);
+                      $Objeto=mysqli_fetch_array($queryO);
+                      $Enlace = $Objeto['Enlace'];
+                      $Texto = $Objeto['Texto'];
+                      $Justificacion = $Objeto['Justificacion'];
+                      ?>
+                      <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
+                      <div class=' col-md-12 <?php echo $Justificacion; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                      <a href="index.php?Id=<?php echo $Enlace; ?>" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                        </div> 
+                      </div>
+                      <?php
+                    }
+                
+                  ?>
                 </div>
-                <br>
-               <?php
-              }
-              ?>
               </div>
-            </div>
-              <?php
+            <?php
             }
             ?>
           </div> 
-        </section>
+        </div>
         <?php
       }
     }
@@ -754,7 +941,7 @@
   ?>
   </main>
 
-    <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/jquery/jquery-migrate.min.js"></script>
@@ -769,6 +956,25 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script>
     <script src="lib/touchSwipe/jquery.touchSwipe.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    $(document).ready(function(){
+     /* $('.bajar').hide();
+      $(window).scroll(function(){
+        if($(this).scrollTop() > 100){
+          $('.bajar').fadeIn('1000');
+        }else{
+          $('.bajar').fadeOut('1000');
+        }
+      });
+*/
+      $('.bajar').click(function(){
+        $('body, html').animate({
+          scrollTop:window.pageYOffset+1000
+         
+        })
+      })
+    })
+    </script>
 
 </body>
 
