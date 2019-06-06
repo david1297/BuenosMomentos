@@ -18,11 +18,12 @@
 	position: fixed;
 	bottom: 15px;
 	right: 15px;
-	width: 50px;
-	height: 50px;
+	width: 100px;
+	height: 100px;
 	border-radius: 50%;
+	font-size: 2rem;
 	background: #009CDE;
-	display: flex;
+	display: grid;
 	justify-content: center;
 	align-items: center;
 	color: #fff;

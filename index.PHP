@@ -1,4 +1,4 @@
-<?php
+﻿<?php
   require_once ("config/db.php");
   require_once ("config/conexion.php");
 ?>
@@ -13,7 +13,7 @@
   <meta name="subjetc" content="Tupro Creativo Publicidad y Marketing">
   <meta name="robots" content="Index, Follow">
   <meta content="Tupro Creativo Publicidad y Marketing" name="author">
-  <meta content="Diseño,Web,Publicidad,Marketing,Creatividad,Negocio,Incremento,Ventas,Tupro,Creativo" name="keywords">
+  <meta content="Diseno,Web,Publicidad,Marketing,Creatividad,Negocio,Incremento,Ventas,Tupro,Creativo" name="keywords">
   <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/carousel.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -76,8 +76,9 @@
             </nav>
         </div>
     </header>
-  <div id="inicio">&nbsp;</div>
-  <span class="fas fa-chevron-down bajar"></span>
+  <div id="inicio"></div>
+  
+  
   
   <?php
 
@@ -121,33 +122,33 @@
             $queryd = mysqli_query($con, $sql);
             while($Sessiond=mysqli_fetch_array($queryd)){
               if ($Sessiond['Tipo']=='Titulo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento'].";";
+                $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                 $Color=' color:'.$Objeto['color'];
                 $TipoGrafia =$Objeto['TipoGrafia'];
                 $Justificacion =$Objeto['Justificacion'];
                 ?>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                   <div class="col-md-12 "> 
-                    <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                    <p style='<?php echo $Tamano.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                   </div>
                 </div>
                 <?php
               }
               if ($Sessiond['Tipo']=='Parrafo'){
-                $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento'].";";
+                $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
-                $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                 $Color=' color:'.$Objeto['color'];
                 $TipoGrafia =$Objeto['TipoGrafia'];
                 $Justificacion =$Objeto['Justificacion'];
                 ?>
                 <div class="row">
                   <div class="col-md-12 "> 
-                    <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                    <p style='<?php echo $Tamano.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                     </div>
                 </div>
                 <?php
@@ -157,11 +158,11 @@
                 $queryO = mysqli_query($con, $sql);
                 $Objeto=mysqli_fetch_array($queryO);
                 $Imagen = $Objeto['Imagen'];
-                $Tamaño = $Objeto['Tamaño'];
+                $Tamano = $Objeto['Tamano'];
                 $Justificacion = $Objeto['Justificacion'];
                 
                 if( $Justificacion=='text-center'){
-                  $offset = (12-$Tamaño);
+                  $offset = (12-$Tamano);
                   if ($offset<>0){
                     $offset=$offset/2;
                     $offset='col-md-offset-'.$offset.' text-center';
@@ -173,7 +174,7 @@
                 }  
                 ?>
                 <div class="row">
-                 <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                 <div class='col-md-<?php echo $Tamano; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
 					          <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
                   </div> 
                 </div>
@@ -185,11 +186,11 @@
                 $Objeto=mysqli_fetch_array($queryO);
                 $Video = $Objeto['Video'];
                 $Autoplay = $Objeto['Autoplay'];
-                $Tamaño = $Objeto['Tamaño'];
+                $Tamano = $Objeto['Tamano'];
                 $Justificacion = $Objeto['Justificacion'];
                 
                 if( $Justificacion=='text-center'){
-                  $offset = (12-$Tamaño);
+                  $offset = (12-$Tamano);
                   if ($offset<>0){
                     $offset=$offset/2;
                     $offset='col-md-offset-'.$offset.' text-center';
@@ -201,7 +202,7 @@
                 }   
                 ?>
                 <div class="row">
-                  <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                  <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                     <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
                       <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
                     </video>
@@ -214,8 +215,8 @@
                     $queryO = mysqli_query($con, $sql);
                     $Objeto=mysqli_fetch_array($queryO);
                     $Controles = $Objeto['Controles'];
-                    $Tamaño = $Objeto['Tamaño'];
-                    $offset = (12-$Tamaño);
+                    $Tamano = $Objeto['Tamano'];
+                    $offset = (12-$Tamano);
                     if ($offset<>0){
                       $offset=$offset/2;
                     }
@@ -226,7 +227,7 @@
                 }
                 </style>
                 <div class="row" style=" padding-left: 0px;padding-right: 0px;">
-                  <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                  <div class='col-md-<?php echo $Tamano; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                    <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
                       <div class="carousel-inner">
                         <?php
@@ -236,12 +237,12 @@
                         while($Objeto=mysqli_fetch_array($queryO)){
                           $Imagen = $Objeto['Imagen'];
                           $Titulo = $Objeto['Titulo'];
-                          $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                          $TTamano = 'font-size:'.$Objeto['TTamano'].'px;';
                           $TColor=' color:'.$Objeto['TColor'];
                           $TTipografia =$Objeto['TTipografia'];
                           $TJustificacion =$Objeto['TJustificacion'];
                           $Parrafo = $Objeto['Parrafo'];
-                          $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                          $PTamano = 'font-size:'.$Objeto['PTamano'].'px;';
                           $PColor=' color:'.$Objeto['PColor'];
                           $PTipografia =$Objeto['PTipografia'];
                           $PJustificacion =$Objeto['PJustificacion'];
@@ -254,8 +255,8 @@
                           <div class="carousel-item <?php echo $active; ?>">
                             <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
-                              <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
-                              <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                              <p style='<?php echo $TTamano.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                              <p style='<?php echo $PTamano.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
                             </div>
                           </div>
                           <?php
@@ -410,33 +411,33 @@
                 <div class="col-md-6">
                   <?php
                     if ($Sessiond['Tipo1']=='Titulo'){
-                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento1'].";";
+                      $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento1'].";";
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
-                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                       $Color=' color:'.$Objeto['color'];
                       $TipoGrafia =$Objeto['TipoGrafia'];
                       $Justificacion =$Objeto['Justificacion'];
                       ?>
                       <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                         <div class="col-md-12 "> 
-                          <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                          <p style='<?php echo $Tamano.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                         </div>
                       </div>
                       <?php
                     }
                     if ($Sessiond['Tipo1']=='Parrafo'){
-                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento1'].";";
+                      $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento1'].";";
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
-                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                       $Color=' color:'.$Objeto['color'];
                       $TipoGrafia =$Objeto['TipoGrafia'];
                       $Justificacion =$Objeto['Justificacion'];
                       ?>
                       <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                         <div class="col-md-12 "> 
-                          <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                          <p style='<?php echo $Tamano.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                           </div>
                       </div>
                       <?php
@@ -446,11 +447,11 @@
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
                       $Imagen = $Objeto['Imagen'];
-                      $Tamaño = $Objeto['Tamaño'];
+                      $Tamano = $Objeto['Tamano'];
                       $Justificacion = $Objeto['Justificacion'];
                       
                       if( $Justificacion=='text-center'){
-                        $offset = (12-$Tamaño);
+                        $offset = (12-$Tamano);
                         if ($offset<>0){
                           $offset=$offset/2;
                           $offset='col-md-offset-'.$offset.' text-center';
@@ -462,7 +463,7 @@
                       }  
                       ?>
                       <div class="row">
-                      <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                      <div class='col-md-<?php echo $Tamano; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
                         </div> 
                       </div>
@@ -474,11 +475,11 @@
                       $Objeto=mysqli_fetch_array($queryO);
                       $Video = $Objeto['Video'];
                       $Autoplay = $Objeto['Autoplay'];
-                      $Tamaño = $Objeto['Tamaño'];
+                      $Tamano = $Objeto['Tamano'];
                       $Justificacion = $Objeto['Justificacion'];
                       
                       if( $Justificacion=='text-center'){
-                        $offset = (12-$Tamaño);
+                        $offset = (12-$Tamano);
                         if ($offset<>0){
                           $offset=$offset/2;
                           $offset='col-md-offset-'.$offset.' text-center';
@@ -490,7 +491,7 @@
                       }   
                       ?>
                       <div class="row">
-                        <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
                             <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
                           </video>
@@ -503,8 +504,8 @@
                           $queryO = mysqli_query($con, $sql);
                           $Objeto=mysqli_fetch_array($queryO);
                           $Controles = $Objeto['Controles'];
-                          $Tamaño = $Objeto['Tamaño'];
-                          $offset = (12-$Tamaño);
+                          $Tamano = $Objeto['Tamano'];
+                          $offset = (12-$Tamano);
                           if ($offset<>0){
                             $offset=$offset/2;
                           }
@@ -517,7 +518,7 @@
                       }
                       </style>
                       <div class="row" style=" padding-left: 0px;padding-right: 0px;">
-                        <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamano; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                         <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento1'];?>" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                               <?php
@@ -527,12 +528,12 @@
                               while($Objeto=mysqli_fetch_array($queryO)){
                                 $Imagen = $Objeto['Imagen'];
                                 $Titulo = $Objeto['Titulo'];
-                                $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                                $TTamano = 'font-size:'.$Objeto['TTamano'].'px;';
                                 $TColor=' color:'.$Objeto['TColor'];
                                 $TTipografia =$Objeto['TTipografia'];
                                 $TJustificacion =$Objeto['TJustificacion'];
                                 $Parrafo = $Objeto['Parrafo'];
-                                $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                                $PTamano = 'font-size:'.$Objeto['PTamano'].'px;';
                                 $PColor=' color:'.$Objeto['PColor'];
                                 $PTipografia =$Objeto['PTipografia'];
                                 $PJustificacion =$Objeto['PJustificacion'];
@@ -545,8 +546,8 @@
                                 <div class="carousel-item <?php echo $active; ?>">
                                   <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
                                   <div class="carousel-caption d-none d-md-block">
-                                    <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
-                                    <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                                    <p style='<?php echo $TTamano.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                                    <p style='<?php echo $PTamano.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
                                   </div>
                                 </div>
                                 <?php
@@ -669,33 +670,33 @@
                 <div class="col-md-6">
                   <?php
                     if ($Sessiond['Tipo2']=='Titulo'){
-                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento2'].";";
+                      $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM titulos where Id = ".$Sessiond['Elemento2'].";";
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
-                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                       $Color=' color:'.$Objeto['color'];
                       $TipoGrafia =$Objeto['TipoGrafia'];
                       $Justificacion =$Objeto['Justificacion'];
                       ?>
                       <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                         <div class="col-md-12 "> 
-                          <p style='<?php echo $Tamaño.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                          <p style='<?php echo $Tamano.$Color;?>' class='<?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                         </div>
                       </div>
                       <?php
                     }
                     if ($Sessiond['Tipo2']=='Parrafo'){
-                      $sql="SELECT Texto,color,Tamaño,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento2'].";";
+                      $sql="SELECT Texto,color,Tamano,TipoGrafia,Justificacion FROM parrafos where Id = ".$Sessiond['Elemento2'].";";
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
-                      $Tamaño = 'font-size:'.$Objeto['Tamaño'].'px;';
+                      $Tamano = 'font-size:'.$Objeto['Tamano'].'px;';
                       $Color=' color:'.$Objeto['color'];
                       $TipoGrafia =$Objeto['TipoGrafia'];
                       $Justificacion =$Objeto['Justificacion'];
                       ?>
                       <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                         <div class="col-md-12 "> 
-                          <p style='<?php echo $Tamaño.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
+                          <p style='<?php echo $Tamano.$Color;?>' class='  <?php echo  $TipoGrafia.' '.$Justificacion;?>'><?php echo $Objeto['Texto'];?></p>
                           </div>
                       </div>
                       <?php
@@ -705,11 +706,11 @@
                       $queryO = mysqli_query($con, $sql);
                       $Objeto=mysqli_fetch_array($queryO);
                       $Imagen = $Objeto['Imagen'];
-                      $Tamaño = $Objeto['Tamaño'];
+                      $Tamano = $Objeto['Tamano'];
                       $Justificacion = $Objeto['Justificacion'];
                       
                       if( $Justificacion=='text-center'){
-                        $offset = (12-$Tamaño);
+                        $offset = (12-$Tamano);
                         if ($offset<>0){
                           $offset=$offset/2;
                           $offset='col-md-offset-'.$offset.' text-center';
@@ -721,7 +722,7 @@
                       }  
                       ?>
                       <div class="row">
-                      <div class='col-md-<?php echo $Tamaño; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                      <div class='col-md-<?php echo $Tamano; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
                         </div> 
                       </div>
@@ -733,11 +734,11 @@
                       $Objeto=mysqli_fetch_array($queryO);
                       $Video = $Objeto['Video'];
                       $Autoplay = $Objeto['Autoplay'];
-                      $Tamaño = $Objeto['Tamaño'];
+                      $Tamano = $Objeto['Tamano'];
                       $Justificacion = $Objeto['Justificacion'];
                       
                       if( $Justificacion=='text-center'){
-                        $offset = (12-$Tamaño);
+                        $offset = (12-$Tamano);
                         if ($offset<>0){
                           $offset=$offset/2;
                           $offset='col-md-offset-'.$offset.' text-center';
@@ -749,7 +750,7 @@
                       }   
                       ?>
                       <div class="row">
-                        <div class='col-md-<?php echo $Tamaño; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
                             <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
                           </video>
@@ -762,8 +763,8 @@
                           $queryO = mysqli_query($con, $sql);
                           $Objeto=mysqli_fetch_array($queryO);
                           $Controles = $Objeto['Controles'];
-                          $Tamaño = $Objeto['Tamaño'];
-                          $offset = (12-$Tamaño);
+                          $Tamano = $Objeto['Tamano'];
+                          $offset = (12-$Tamano);
                           if ($offset<>0){
                             $offset=$offset/2;
                           }
@@ -776,7 +777,7 @@
                       }
                       </style>
                       <div class="row" style=" padding-left: 0px;padding-right: 0px;">
-                        <div class='col-md-<?php echo $Tamaño; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                        <div class='col-md-<?php echo $Tamano; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                         <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento2'];?>" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                               <?php
@@ -786,12 +787,12 @@
                               while($Objeto=mysqli_fetch_array($queryO)){
                                 $Imagen = $Objeto['Imagen'];
                                 $Titulo = $Objeto['Titulo'];
-                                $TTamaño = 'font-size:'.$Objeto['TTamaño'].'px;';
+                                $TTamano = 'font-size:'.$Objeto['TTamano'].'px;';
                                 $TColor=' color:'.$Objeto['TColor'];
                                 $TTipografia =$Objeto['TTipografia'];
                                 $TJustificacion =$Objeto['TJustificacion'];
                                 $Parrafo = $Objeto['Parrafo'];
-                                $PTamaño = 'font-size:'.$Objeto['PTamaño'].'px;';
+                                $PTamano = 'font-size:'.$Objeto['PTamano'].'px;';
                                 $PColor=' color:'.$Objeto['PColor'];
                                 $PTipografia =$Objeto['PTipografia'];
                                 $PJustificacion =$Objeto['PJustificacion'];
@@ -804,8 +805,8 @@
                                 <div class="carousel-item <?php echo $active; ?>">
                                   <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="d-block w-100" alt="...">
                                   <div class="carousel-caption d-none d-md-block">
-                                    <p style='<?php echo $TTamaño.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
-                                    <p style='<?php echo $PTamaño.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
+                                    <p style='<?php echo $TTamano.$TColor;?>' class=' <?php echo  $TTipografia.' '.$TJustificacion;?>'><?php echo $Objeto['Titulo'];?></p>
+                                    <p style='<?php echo $PTamano.$PColor;?>' class=' <?php echo  $PTipografia.' '.$PJustificacion;?>'><?php echo $Objeto['Parrafo'];?></p>
                                   </div>
                                 </div>
                                 <?php
@@ -938,7 +939,10 @@
 
   ?>
   </main>
-
+  <div class="bajar">
+    <span class="fas fa-chevron-up "></span>
+    <span class="fas fa-chevron-down "></span>
+  </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
@@ -965,7 +969,13 @@
         }
       });
 */
-      $('.bajar').click(function(){
+      $('.fa-chevron-up').click(function(){
+        $('body, html').animate({
+          scrollTop:window.pageYOffset-1000
+         
+        })
+      })
+      $('.fa-chevron-down').click(function(){
         $('body, html').animate({
           scrollTop:window.pageYOffset+1000
          
