@@ -103,7 +103,7 @@
           $Container='container';
         }
         if ($Session['TipoFondo']=='Imagen'){
-          $Fondo='background :url(data:image/gif;base64,'.$Session['Fondo'].')
+          $Fondo='background :url(../Abbott/Imagenes/'.$Session['Fondo'].')
           no-repeat
           center center;
           background-size: cover;
@@ -223,8 +223,6 @@
                 ?>
                 <style>
                 .container-fluid{
-                  padding-right: 0;
-                  padding-left: 0;
                 }
                 </style>
                 <div class="row" style=" padding-left: 0px;padding-right: 0px;">
