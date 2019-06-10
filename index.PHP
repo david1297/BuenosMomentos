@@ -1,6 +1,20 @@
 ﻿<?php
   require_once ("config/db.php");
   require_once ("config/conexion.php");
+  $sql="SELECT * FROM administracion ";
+  $query = mysqli_query($con, $sql);
+  $row=mysqli_fetch_array($query);
+  $ImagenP=$row['ImagenP'];
+  $ColorP=$row['ColorP'];
+  $ColorS=$row['ColorS'];
+  $Icono=$row['Icono'];
+  $Justificacion=$row['Justificacion'];
+  $ColorT= 'Color:'.$row['ColorT'];
+
+
+  $Tamano = 'font-size:'.$row['Tamano'].'px;';
+  $TipoGrafia =$row['TipoGrafia'];
+ 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,8 +32,8 @@
     <link href="css/carousel.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/Efect.css" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="76x76" href="img/icono.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="img/icono.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../Abbott/Imagenes/<?php echo $Icono; ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="../Abbott/Imagenes/<?php echo $Icono; ?>">
     <link rel="stylesheet" href="lib/font-awesome/css/fontawesome-all.css" media="none"
         onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
@@ -49,27 +63,40 @@
 <body>
 <header>
         <div class="fixed-top">
-            <nav class="navbar   navbar-dark  bg-core ">
+            <nav class="navbar   navbar-dark  bg-core " style='background-color: <?php echo $ColorP;?>!important;'>
 
                 <div class="m-lg-auto">
 
-                    <img src="img/logo-buenos-momentos.png" class="img-fluid" alt="Responsive image" width="200px">
+                    <img src="../Abbott/Imagenes/<?php echo $ImagenP; ?>" class="img-fluid" alt="Responsive image" width="200px">
 
 
                 </div>
             </nav>
-            <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light" style='background-color: <?php echo $ColorS;?>!important;'>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="container justify-content-center">
-
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav justify-content-center m-lg-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link Calibri" href="index.php">Inicio <span class="sr-only">(current)</span></a>
-                            </li>
+                            
+                            <?php
+                              $sql="SELECT * FROM administracionD ";
+                              $query = mysqli_query($con, $sql);
+                              while($row=mysqli_fetch_array($query)){
+                                $Texto=$row['Texto'];
+                                $Enlace=$row['Enlace'];
+                                ?>
+                                <li class="nav-item active">
+                                <a class="nav-link <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
+                                </li>
+                                <?php
+                              }
+                              
+                            ?>
+                               
+                            
                         </ul>
                     </div>
                 </div>
@@ -204,7 +231,7 @@
                 <div class="row">
                   <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                     <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
-                      <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
+                      <source src="../Abbott/Videos/<?php echo $Video; ?>" type="video/mp4"  >
                     </video>
                   </div> 
                 </div>
@@ -220,7 +247,7 @@
                     if ($offset<>0){
                       $offset=$offset/2;
                     }
-
+                   
                 ?>
                 <style>
                 .container-fluid{
@@ -308,7 +335,7 @@
                       <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
                         <div class="portfolio-wrap">
                           <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
-                            <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="" class="link-preview" title="Preview">
+                            <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="Carrera 4k" class="link-preview" title="Preview">
                               <i class="fas fa-eye"></i>
                             </a>
                           </figure>
@@ -323,40 +350,54 @@
                 <?php
               }
               if ($Sessiond['Tipo']=='Botonera'){
+                $sql2="select distinct Anio from botonerad where botonera =  ".$Sessiond['Elemento'].";";
+                    $query2 = mysqli_query($con, $sql2);
+                   
+
                 $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
                 ?>
-                <div class="row"style="margin-top: 0px; margin-bottom: 0px;">
-                  <?php
-                  while($Objeto=mysqli_fetch_array($queryO)){
-                    $Enlace = $Objeto['Enlace'];
-                    $Imagen = $Objeto['Imagen'];
-                    $RBorder = $Objeto['RBorder'];
-                    $BGrosor = $Objeto['BGrosor'];
-                    $Descripcion = $Objeto['Descripcion'];
-                    $BColor = $Objeto['BColor'];
-                    $RBorderI = $Objeto['RBorderI'];
-                    ?>
-                    
-                    <div class="col-md-4" style="padding-top: 15px; padding-bottom: 15px;">
-                      <div class="text-center" style=' 
-                        border-width: <?php echo  $BGrosor;?>px;
-                        border-style: solid;
-                        border-color: <?php echo  $BColor;?>;
-                        border-radius:<?php echo  $RBorder;?>%;
-                        '>              
-                        <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
-                          <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image">
-                          
-                        </a>
-                        <h3 style ="color: <?php echo $BColor;?>"> <?php echo $Descripcion;?></h3>
-                      </div>   
+                <section id="portfolio"  class="section-bg" >
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ul id="portfolio-flters">
+                          <li data-filter="*" class="filter-active">Todos</li>
+                          <?php
+                           while($row2=mysqli_fetch_array($query2)){
+                            $Anio=$row2['Anio'];
+                            echo '<li data-filter=".filter-'.$Anio.'">'.$Anio.'</li>';
+                          }
+                          ?>
+                        </ul>
+                      </div>
                     </div>
-                    <?php
-                  }
-                ?>
-                </div>
-              
+                    <div class="row portfolio-container" style="margin-top: 0px; margin-bottom: 0px;">
+                      <?php
+                      while($Objeto=mysqli_fetch_array($queryO)){
+                        $Enlace = $Objeto['Enlace'];
+                        $Imagen = $Objeto['Imagen'];
+                        $RBorder = $Objeto['RBorder'];
+                        $BGrosor = $Objeto['BGrosor'];
+                        $Descripcion = $Objeto['Descripcion'];
+                        $BColor = $Objeto['BColor'];
+                        $RBorderI = $Objeto['RBorderI'];
+                        $Anio = $Objeto['Anio'];                      
+                        ?>           
+                        <div class="col-md-4 portfolio-item filter-<?php echo $Anio;?>" style="padding-top: 15px; padding-bottom: 15px;">
+                          <div class="text-center" style=' border-width: <?php echo  $BGrosor;?>px; border-style: solid; border-color: <?php echo  $BColor;?>;border-radius:<?php echo  $RBorder;?>%;'>              
+                            <a class="nav-link" href="index.php?Id=<?php echo $Enlace; ?>">
+                            <img src='../Abbott/Imagenes/<?php echo $Imagen; ?>' class="img-fluid" style='border-radius:<?php echo  $RBorderI;?>%;' alt="Responsive image"> 
+                            </a>
+                            <h3 style ="color: <?php echo $BColor;?>"> <?php echo $Descripcion;?></h3>
+                          </div>   
+                        </div>
+                        <?php
+                      }
+                      ?>
+                    </div>
+                  </div> 
+                </section>
                <?php
               }
               if($Sessiond['Tipo']=='Boton'){
@@ -493,7 +534,7 @@
                       <div class="row">
                         <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
-                            <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
+                            <source src="../Abbott/Videos/<?php echo $Video; ?>" type="video/mp4"  >
                           </video>
                         </div> 
                       </div>
@@ -752,7 +793,7 @@
                       <div class="row">
                         <div class='col-md-<?php echo $Tamano; ?> <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
                           <video controls loop class="embed-responsive-item"  width="100%" <?php echo $Autoplay; ?> >
-                            <source src="Videos/<?php echo $Video; ?>" type="video/mp4"  >
+                            <source src="../Abbott/Videos/<?php echo $Video; ?>" type="video/mp4"  >
                           </video>
                         </div> 
                       </div>
@@ -943,7 +984,8 @@
     <span class="fas fa-chevron-up "></span>
     <span class="fas fa-chevron-down "></span>
   </div>
-
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/jquery/jquery-migrate.min.js"></script>
@@ -958,6 +1000,14 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script>
     <script src="lib/touchSwipe/jquery.touchSwipe.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        function mouseOver() {
+            $(document).ready(function () {
+                $('#imagen1').mouseOver();
+            })
+
+        }
+    </script>
     <script>
     $(document).ready(function(){
      /* $('.bajar').hide();
