@@ -1120,11 +1120,15 @@ $('.filter-active').click();
       var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
         var Respuesta = $('#Encuesta').html();
-        alert(Respuesta);
-       location.href='Index.php';
-      } else {
-        ;
-      } 
+        $.ajax({
+        	url:'Guardar_Encuesta.php?Respuesta='+Respuesta,
+		      beforeSend: function(objeto){
+	        },
+		      success:function(data){
+            location.href='Index.php';
+		      }
+	      })
+      }
     }
 
     </script>

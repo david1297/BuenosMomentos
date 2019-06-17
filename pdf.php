@@ -10,14 +10,15 @@ use Dompdf\Dompdf;
 $dompdf = new Dompdf();
 
 
-$D=date("d-m-Y");
+
 $pdf='<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body>';
-	$mysqli = new mysqli('127.0.0.1', 'root', 'root', 'informe');
-$mysqli->set_charset("utf8");
-$consulta = (" select * from correos where fecha ='$D'");
-$res = mysqli_query($mysqli, $consulta);
-	while($f = mysqli_fetch_object($res)){
-		$pdf.=$f->correo;
+require_once ("config/db.php");
+require_once ("config/conexion.php");
+$sql="SELECT * FROM respuestas where Fecha = CURDATE() ";
+$query = mysqli_query($con, $sql);
+
+while ($row=mysqli_fetch_array($query)){
+		$pdf.=$row['Respuestas'];
 		$pdf.='<div style="page-break-after:always;"></div>';
 
 	}
@@ -37,8 +38,8 @@ $dompdf->setPaper('letter', 'portrait');
 $dompdf->render();
 
 // Output the generated PDF (1 = download and 0 = preview)
-//$dompdf->stream("codexworld",array("Attachment"=>0));
-$dompdf->stream("Correos ".$D.".pdf");
+$dompdf->stream("codexworld",array("Attachment"=>0));
+//$dompdf->stream("Encuestas ".$D.".pdf");
 
 
 
