@@ -1127,6 +1127,7 @@ $('.filter-active').click();
     function GuardarEncuesta(){
       var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
+        $('input').hide();
         var Respuesta = $('#Encuesta').html();
         $.ajax({
         	url:'Guardar_Encuesta.php?Respuesta='+Respuesta,

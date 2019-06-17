@@ -4,7 +4,19 @@ require_once ("config/db.php");
 require_once ("config/conexion.php");
 
 ?>
-<html><head>
+<?php
+ //Agregamos la libreria FPDF
+
+
+// Reference the Dompdf namespace
+use Dompdf\Dompdf;
+
+// Instantiate and use the dompdf class
+$dompdf = new Dompdf();
+
+
+
+$pdf='<html><head>
 <meta charset="utf-8">
   <title>Buenos Momentos Abbott</title>
   <meta content="width=device-width, initial-scale=1.0,user-scalable=no" name="viewport">
@@ -28,31 +40,26 @@ require_once ("config/conexion.php");
        >
     <link rel="stylesheet" href="lib/lightbox/css/lightbox.min.css" media="none">
     <link href="css/creative.min.css" rel="stylesheet">
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet"></head><body>
-<?php
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet"></head><body>';
+
 $sql="SELECT * FROM respuestas where Fecha = CURDATE() ";
 $query = mysqli_query($con, $sql);
 
 while ($row=mysqli_fetch_array($query)){
-		echo $row['Respuestas'];
-		echo '<div style="page-break-after:always;"></div>';
+		$pdf.=$row['Respuestas'];
+		$pdf.='<div style="page-break-after:always;"></div>';
 
 	}
 
-echo '</body></html>';
-$html = ob_get_clean();
-use Dompdf\Dompdf;
 
-// Instantiate and use the dompdf class
+	
+$pdf.='</body></html>';
 
-$dompdf = new Dompdf();
-$dompdf->loadHtml($html);
-$dompdf->setPaper('letter', 'portrait');
-$dompdf->render();
+$dompdf->load_html($pdf );
 
  ini_set("memory_limit","360M");
 // (Optional) Setup the paper size and orientation
-
+$dompdf->setPaper('letter', 'portrait');
 
 
 
