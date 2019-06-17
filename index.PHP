@@ -63,65 +63,118 @@
 </head>
 
 <body>
-<header>
-        <div class="fixed-top">
-            <nav class="navbar   navbar-dark  bg-core " style='background-color: <?php echo $ColorP;?>!important;'>
-
-                <div class="m-lg-auto">
-
-                    <img src="../Abbott/Imagenes/<?php echo $ImagenP; ?>" class="img-fluid" alt="Responsive image" width="200px">
-
-
-                </div>
-            </nav>
-            <nav class="navbar navbar-expand-md navbar-light bg-light" style='background-color: <?php echo $ColorS;?>!important;'>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="container justify-content-center">
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav justify-content-center m-lg-auto">
-                            
-                            <?php
-                              $sql="SELECT * FROM administracionD ";
-                              $query = mysqli_query($con, $sql);
-                              while($row=mysqli_fetch_array($query)){
-                                $Texto=$row['Texto'];
-                                $Enlace=$row['Enlace'];
-                                ?>
-                                <li class="nav-item active">
-                                <a class="nav-link <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
-                                </li>
-                                <?php
-                              }
-                              
-                            ?>
-                               
-                            
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+  <header>
+    <div class="fixed-top">
+      <nav class="navbar   navbar-dark  bg-core " style='background-color: <?php echo $ColorP;?>!important;'>
+        <div class="m-lg-auto">
+          <img src="../Abbott/Imagenes/<?php echo $ImagenP; ?>" class="img-fluid" alt="Responsive image" width="200px">
         </div>
-    </header>
+      </nav>
+      <nav class="navbar navbar-expand-md navbar-light bg-light" style='background-color: <?php echo $ColorS;?>!important;'>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container justify-content-center">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav justify-content-center m-lg-auto">                
+            <?php
+              $sql="SELECT * FROM administracionD ";
+              $query = mysqli_query($con, $sql);
+              while($row=mysqli_fetch_array($query)){
+                $Texto=$row['Texto'];
+                $Enlace=$row['Enlace'];
+                ?>
+                <li class="nav-item active">
+                  <a class="nav-link <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
+                </li>
+                <?php
+              }
+              
+            ?>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
   <div id="inicio"></div>
-  
-  
-  
   <?php
-
-  if (isset($_GET['Id'])) {
+  if (isset($_GET['Tipo'])) {
     $Id=$_GET['Id'];
-  }  else{
-    $sql="SELECT * FROM pagina where Principal ='True'";
+    $sql="SELECT * FROM encuestad where encuesta = $Id order by Orden";
     $query = mysqli_query($con, $sql);
-    $row=mysqli_fetch_array($query);
-    $Id=$row['Id'];
-  }
-		$sql="SELECT Tipo,Seccion FROM paginad where Pagina = $Id order by ORden";
-	  $query = mysqli_query($con, $sql);
-	  while ($row=mysqli_fetch_array($query)){
+    ?>
+    <div class="container">
+      <?php
+      while ($row=mysqli_fetch_array($query)){
+        ?>
+        <div class="row">
+          <div class="col-md-8">
+            <?php
+            echo '<spam>'.$row['Pregunta'].'<spam>';
+            if( $row['Tipo']=='Texto'){
+              ?>
+              <div class="form-group">
+                <input type="text" class='form-control'>
+              </div>
+              <?php
+            }else{
+              if( $row['Tipo']=='Multiple'){
+                $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
+                $query1 = mysqli_query($con, $sql1);
+                while ($row1=mysqli_fetch_array($query1)){
+                  ?>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" name="Check<?php echo $row['Id']; ?>">
+                    <label class="form-check-label" for="defaultCheck1">
+                      <?php echo $row1['Opcion']; ?>
+                    </label>
+                  </div>
+                  <?php
+                }
+              }else{
+                if( $row['Tipo']=='Seleccion'){
+                  $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
+                  $query1 = mysqli_query($con, $sql1);
+                  while ($row1=mysqli_fetch_array($query1)){
+                    ?>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio"  id="Radio<?php echo $row1['Id']; ?>" name="Radio<?php echo $row['Id']; ?>" value="option1" checked>
+                      <label class="form-check-label" for="Radio<?php echo $row1['Id']; ?>" >
+                        <?php echo $row1['Opcion']; ?>
+                      </label>
+                    </div>
+                    <?php
+                  }
+                }
+              } 
+            }          
+            ?>
+          </div>
+        </div>
+        <?php
+      }
+      ?>  
+      <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
+							<button type="submit" class="btn btn-primary" id="actualizar_datos3B">Guardar</button>
+		  			</div>
+    </div>
+
+    <?php
+
+  }else{ 
+    if (isset($_GET['Id'])) {
+      $Id=$_GET['Id'];
+    }else{
+      $sql="SELECT * FROM pagina where Principal ='True'";
+      $query = mysqli_query($con, $sql);
+      $row=mysqli_fetch_array($query);
+      $Id=$row['Id'];
+    }
+    $sql="SELECT Tipo,Seccion FROM paginad where Pagina = $Id order by ORden";
+    $query = mysqli_query($con, $sql);
+    while ($row=mysqli_fetch_array($query)){
       $Tipo=$row['Tipo'];
       if ( $Tipo=='1'){
         $sql="SELECT Descripcion,Id,TipoFondo,Fondo,Completa FROM seccion1 where Id = ".$row['Seccion']."";
@@ -137,7 +190,7 @@
           no-repeat
           center center;
           background-size: cover;
-       ';
+        ';
         }else{
           $Fondo ='background-color:'.$Session['Fondo'];
         }
@@ -203,8 +256,8 @@
                 }  
                 ?>
                 <div class="row">
-                 <div class='col-md-<?php echo $Tamano; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
-					          <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
+                  <div class='col-md-<?php echo $Tamano; ?>  <?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
+                    <img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluid"  alt="Imagen" />
                   </div> 
                 </div>
                 <?php
@@ -249,7 +302,7 @@
                     if ($offset<>0){
                       $offset=$offset/2;
                     }
-                   
+                    
                 ?>
                 <style>
                 .container-fluid{
@@ -257,7 +310,7 @@
                 </style>
                 <div class="row" style=" padding-left: 0px;padding-right: 0px;">
                   <div class='col-md-<?php echo $Tamano; ?>  col-md-offset-<?php echo $offset; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
-                   <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
+                    <div id="carouselExampleCaptions<?php echo $Sessiond['Elemento'];?>" class="carousel slide" data-ride="carousel">
                       <div class="carousel-inner">
                         <?php
                         $h=0;
@@ -354,7 +407,7 @@
               if ($Sessiond['Tipo']=='Botonera'){
                 $sql2="select distinct Anio from botonerad where botonera =  ".$Sessiond['Elemento']." order by Anio;";
                     $query2 = mysqli_query($con, $sql2);
-                   
+                    
 
                 $sql="SELECT * FROM Botonerad where Botonera = ".$Sessiond['Elemento'].";";
                 $queryO = mysqli_query($con, $sql);
@@ -407,7 +460,7 @@
                     </div>
                   </div> 
                 </section>
-               <?php
+                <?php
               }
               if($Sessiond['Tipo']=='Boton'){
                 $sql="SELECT * FROM Boton where Id = ".$Sessiond['Elemento'].";";
@@ -415,11 +468,23 @@
                 $Objeto=mysqli_fetch_array($queryO);
                 $Enlace = $Objeto['Enlace'];
                 $Texto = $Objeto['Texto'];
+                $TipoB = $Objeto['Tipo'];
                 $Justificacion = $Objeto['Justificacion'];
                 ?>
                 <div class="row"style="margin-top: 0px;margin-bottom: 0px;">
                 <div class=' col-md-12 <?php echo $Justificacion; ?>' style="margin-top: 0px;margin-bottom: 0px; padding-left: 0px;padding-right: 0px;">
-                <a href="index.php?Id=<?php echo $Enlace; ?>" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                <?php
+                  if($TipoB=='Pagina'){
+                    ?>
+                    <a href="index.php?Id=<?php echo $Enlace; ?>" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                    <?php
+                  }else{
+                    ?>
+                    <a href="index.php?Id=<?php echo $Enlace; ?>&Tipo=Encuesta" class="btn btn-primary punteado"><?php echo $Texto;?></a>
+                    <?php
+                  }
+                ?>
+                
                   </div> 
                 </div>
                 <?php
@@ -444,7 +509,7 @@
           no-repeat
           left center;
           background-size: cover;
-       ';
+        ';
         }else{
           $Fondo ='background-color:'.$Session['Fondo'];
         }
@@ -986,95 +1051,12 @@
         <?php
       }
     }
+  }
+
 
   ?>
   </main>
-  <!--
-  <section id="portfolio1">
-    <div class="container-fluid p-0">
-      <div class="row no-gutters">
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
-            <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-                Category
-              </div>
-              <div class="project-name">
-                Project Name
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  -->
+ 
   <div class="bajar">
     <span class="fas fa-chevron-up "></span>
     <span class="fas fa-chevron-down "></span>

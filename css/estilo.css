@@ -268,3 +268,29 @@ color:rgb(255,209,0);
 	.btn-primary.active, .btn-primary.active:focus, .btn-primary.active.focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary:active.focus {
 	  background-color: #002A3A;
 	  border-color: #002A3A; }
+.btn-default {
+	color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+  .btn-default:hover, .btn-default:focus {
+    background-color: #f9f9f9;
+    border-color: #dcdcdc;
+    color: #5A5A5A; }
+  .btn-default.active, .btn-default.active:focus, .btn-default.active.focus, .btn-default:active, .btn-default:active:focus, .btn-default:active.focus {
+    background-color: #f4f4f4;
+    border-color: #d2d2d2;
+    color: #5A5A5A; }
+
+.btn-default-dark {
+  background-color: #acb5c1;
+  border-color: #a3adba;
+  color: #fff; }
+  .btn-default-dark:hover, .btn-default-dark:focus {
+    background-color: #9da8b6;
+    border-color: #98a3b2;
+    color: #fff; }
+  .btn-default-dark.active, .btn-default-dark.active:focus, .btn-default-dark.active.focus, .btn-default-dark:active, .btn-default-dark:active:focus, .btn-default-dark:active.focus {
+    background-color: #9da8b6;
+    border-color: #98a3b2;
+    color: #fff; }
