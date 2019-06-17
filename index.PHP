@@ -104,7 +104,7 @@
     $sql="SELECT * FROM encuestad where encuesta = $Id order by Orden";
     $query = mysqli_query($con, $sql);
     ?>
-    <div class="container">
+    <div class="container" id="Encuesta">
       <?php
       while ($row=mysqli_fetch_array($query)){
         ?>
@@ -155,12 +155,13 @@
         <?php
       }
       ?>  
-      <div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
-							<button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
-		  			</div>
     </div>
-
+    <div class="container">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
+      </div>
+    </div>
     <?php
 
   }else{ 
@@ -1118,6 +1119,8 @@ $('.filter-active').click();
     function GuardarEncuesta(){
       var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
+        var Respuesta = $('#Encuesta').html();
+        alert(Respuesta);
        location.href='Index.php';
       } else {
         ;
