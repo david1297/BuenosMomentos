@@ -105,6 +105,7 @@
     $query = mysqli_query($con, $sql);
     ?>
     <div class="container" id="Encuesta">
+      <form action="">
       <?php
       while ($row=mysqli_fetch_array($query)){
         ?>
@@ -115,7 +116,8 @@
             if( $row['Tipo']=='Texto'){
               ?>
               <div class="form-group">
-                <input type="text" class='form-control'>
+                <input type="text" class='form-control' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''>
+                <label for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>"></label>
               </div>
               <?php
             }else{
@@ -155,6 +157,7 @@
         <?php
       }
       ?>  
+      </form>
     </div>
     <div class="container">
       <div class="modal-footer">
@@ -1093,6 +1096,11 @@
     </script>
     <script>
     $(document).ready(function(){
+
+      $('input').keyup(function () {
+        var Id =$(this).attr("id");
+        $('#Label'+Id).text('R:/'+$('#'+Id).val());
+      })
      /* $('.bajar').hide();
       $(window).scroll(function(){
         if($(this).scrollTop() > 100){
