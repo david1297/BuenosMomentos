@@ -387,7 +387,7 @@
                     while($Objeto=mysqli_fetch_array($queryO)){
                       $Imagen = $Objeto['Imagen'];
                       ?>
-                      <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item filter-publicidad ">
+                      <div class="col-lg-3 col-md-6 col-xs-12 portfolio-item1 filter-publicidad ">
                         <div class="portfolio-wrap">
                           <figure class="catalogo"><img src="../Abbott/Imagenes/<?php echo $Imagen; ?>" class="img-fluido " alt="">
                             <a id="p1" href="../Abbott/Imagenes/<?php echo $Imagen; ?>" data-lightbox="portfolio" data-title="Carrera 4k" class="link-preview" title="Preview">
