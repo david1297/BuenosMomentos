@@ -157,7 +157,7 @@
       ?>  
       <div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
-							<button type="submit" class="btn btn-primary" id="actualizar_datos3B">Guardar</button>
+							<button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
 		  			</div>
     </div>
 
@@ -1115,6 +1115,15 @@ $('.filter-active').click();
         })
       })
     })
+    function GuardarEncuesta(){
+      var r = confirm("Desea Guardar las Respuestas");
+      if (r == true) {
+       location.href='Index.php';
+      } else {
+        ;
+      } 
+    }
+
     </script>
 
 </body>
