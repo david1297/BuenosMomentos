@@ -1159,7 +1159,6 @@ $('.filter-active').click();
           type: "POST",
           data: 'Respuesta='+Respuesta,
 		      beforeSend: function(objeto){
-            alert('enviando');
 	        },
 		      success:function(data){
             location.href='Index.php';
