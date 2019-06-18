@@ -113,11 +113,15 @@
           <div class="col-md-8">
             <?php
             echo '<spam>'.$row['Pregunta'].'<spam>';
+            ?>
+            <br>
+            <label class='Res'for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>">R:/</label>
+            <?php
+        
             if( $row['Tipo']=='Texto'){
               ?>
               <div class="form-group">
-                <input type="text" class='form-control' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''>
-                <label for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>"></label>
+                <input type="text" class='form-control pregunta' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''>
               </div>
               <?php
             }else{
@@ -127,10 +131,11 @@
                 while ($row1=mysqli_fetch_array($query1)){
                   ?>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" name="Check<?php echo $row['Id']; ?>">
-                    <label class="form-check-label" for="defaultCheck1">
+                    <input class="form-check-input pregunta " type="checkbox" id='C-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' value="<?php echo $row1['Opcion']; ?>" name="Check<?php echo $row['Id']; ?>">
+                    <label class="form-check-label pregunta " for="defaultCheck1">
                       <?php echo $row1['Opcion']; ?>
                     </label>
+                    
                   </div>
                   <?php
                 }
@@ -141,8 +146,8 @@
                   while ($row1=mysqli_fetch_array($query1)){
                     ?>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio"  id="Radio<?php echo $row1['Id']; ?>" name="Radio<?php echo $row['Id']; ?>" value="option1" checked>
-                      <label class="form-check-label" for="Radio<?php echo $row1['Id']; ?>" >
+                      <input class="form-check-input pregunta radio" type="radio"  id='R-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' name="Radio<?php echo $row['Id']; ?>" value="<?php echo $row1['Opcion']; ?>">
+                      <label class="form-check-label pregunta" for="Radio<?php echo $row1['Id']; ?>" >
                         <?php echo $row1['Opcion']; ?>
                       </label>
                     </div>
@@ -1096,11 +1101,22 @@
     </script>
     <script>
     $(document).ready(function(){
+      $('.Res').hide();
 
       $('input').keyup(function () {
         var Id =$(this).attr("id");
         $('#Label'+Id).text('R:/'+$('#'+Id).val());
       })
+      $('.radio').click(function () {
+        var Id =$(this).attr("id");
+        var Id =$(this).attr("id");
+        var P = Id.split('-');
+
+        $('#Label'+P[2]).text('R:/'+$(this).val());
+      })
+      
+
+ 
      /* $('.bajar').hide();
       $(window).scroll(function(){
         if($(this).scrollTop() > 100){
@@ -1127,11 +1143,23 @@ $('.filter-active').click();
     function GuardarEncuesta(){
       var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
-        $('input').hide();
+        $('.pregunta').hide();
+        $('.Res').show();
+        var diasSeleccionados = new Array();
+        $('input[type=checkbox]:checked').each(function() {
+          var Id =$(this).attr("id");
+          var P = Id.split('-');
+          $('#Label'+P[2]).text($('#Label'+P[2]).text()+$(this).val()+';');
+         
+        });
         var Respuesta = $('#Encuesta').html();
-        $.ajax({
-        	url:'Guardar_Encuesta.php?Respuesta='+Respuesta,
+        
+       $.ajax({
+        	url:'Guardar_Encuesta.php',
+          type: "POST",
+          data: 'Respuesta='+Respuesta,
 		      beforeSend: function(objeto){
+            alert('enviando');
 	        },
 		      success:function(data){
             location.href='Index.php';
@@ -1139,6 +1167,9 @@ $('.filter-active').click();
 	      })
       }
     }
+  
+
+
 
     </script>
 
