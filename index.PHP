@@ -63,7 +63,7 @@
 </head>
 
 <body>
-  <header>
+  <header id='main'>
     <div class="fixed-top">
       <nav class="navbar   navbar-dark  bg-core " style='background-color: <?php echo $ColorP;?>!important;'>
         <div class="m-lg-auto">
@@ -83,9 +83,25 @@
               while($row=mysqli_fetch_array($query)){
                 $Texto=$row['Texto'];
                 $Enlace=$row['Enlace'];
+                $Tipo=$row['Tipo'];
+                $Seccion=$row['Seccion'];
                 ?>
                 <li class="nav-item active">
-                  <a class="nav-link <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
+               
+                <?php
+                  if($Tipo =='Pagina'){
+                    ?>
+                    <a class="nav-link js-scroll-trigger <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>#Section<?php echo $Seccion;?>" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
+
+                    <?php
+                  }else{
+                    ?>
+                    <a class="nav-link js-scroll-trigger <?php echo  $TipoGrafia.' '.$Justificacion;?>" href="index.php?Id=<?php echo $Enlace;?>&Tipo=Encuesta" style='<?php echo $Tamano.' '.$ColorT;?>'><?php echo $Texto;?> <span class="sr-only">(current)</span></a>
+                    <?php
+
+                  }
+
+                 ?>
                 </li>
                 <?php
               }
@@ -105,72 +121,51 @@
     $query = mysqli_query($con, $sql);
     ?>
     <div class="container" id="Encuesta">
-      <form action="">
-      <?php
-      while ($row=mysqli_fetch_array($query)){
-        ?>
-        <div class="row">
-          <div class="col-md-8">
-            <?php
-            echo '<spam>'.$row['Pregunta'].'<spam>';
-            ?>
-            <br>
-            <label class='Res'for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>">R:/</label>
-            <?php
-        
-            if( $row['Tipo']=='Texto'){
-              ?>
-              <div class="form-group">
-                <input type="text" class='form-control pregunta' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''>
-              </div>
-              <?php
-            }else{
-              if( $row['Tipo']=='Multiple'){
-                $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
-                $query1 = mysqli_query($con, $sql1);
-                while ($row1=mysqli_fetch_array($query1)){
-                  ?>
-                  <div class="form-check">
-                    <input class="form-check-input pregunta " type="checkbox" id='C-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' value="<?php echo $row1['Opcion']; ?>" name="Check<?php echo $row['Id']; ?>">
-                    <label class="form-check-label pregunta " for="defaultCheck1">
-                      <?php echo $row1['Opcion']; ?>
-                    </label>
-                    
-                  </div>
-                  <?php
-                }
-              }else{
-                if( $row['Tipo']=='Seleccion'){
-                  $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
-                  $query1 = mysqli_query($con, $sql1);
-                  while ($row1=mysqli_fetch_array($query1)){
-                    ?>
-                    <div class="form-check">
-                      <input class="form-check-input pregunta radio" type="radio"  id='R-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' name="Radio<?php echo $row['Id']; ?>" value="<?php echo $row1['Opcion']; ?>">
-                      <label class="form-check-label pregunta" for="Radio<?php echo $row1['Id']; ?>" >
-                        <?php echo $row1['Opcion']; ?>
-                      </label>
-                    </div>
-                    <?php
-                  }
-                }
-              } 
-            }          
-            ?>
-          </div>
-        </div>
-        <?php
-      }
-      ?>  
-      </form>
-    </div>
-    <div class="container">
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
-        <button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
-      </div>
-    </div>
-    <?php
+<form action="">
+<?php
+while ($row=mysqli_fetch_array($query)){
+?>
+<div class="row"><div class="col-md-8"><?php echo '<spam>'.$row['Pregunta'].'<spam>';?><br>
+<label class='Res'for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>">R:/</label>
+<?php        
+if( $row['Tipo']=='Texto'){
+?>
+<div class="form-group"><input type="text" class='form-control pregunta' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''></div>
+<?php
+}else{
+if( $row['Tipo']=='Multiple'){
+$sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
+$query1 = mysqli_query($con, $sql1);
+while ($row1=mysqli_fetch_array($query1)){
+?>
+<div class="form-check"><input class="form-check-input pregunta " type="checkbox" id='C-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' value="<?php echo $row1['Opcion']; ?>" name="Check<?php echo $row['Id']; ?>"><label class="form-check-label pregunta " for="defaultCheck1"><?php echo $row1['Opcion']; ?></label></div><?php
+}
+}else{
+if( $row['Tipo']=='Seleccion'){
+$sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
+$query1 = mysqli_query($con, $sql1);
+while ($row1=mysqli_fetch_array($query1)){
+?>
+<div class="form-check"><input class="form-check-input pregunta radio" type="radio"  id='R-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' name="Radio<?php echo $row['Id']; ?>" value="<?php echo $row1['Opcion']; ?>"><label class="form-check-label pregunta" for="Radio<?php echo $row1['Id']; ?>" ><?php echo $row1['Opcion']; ?></label></div><?php
+}
+}
+} 
+}          
+?>
+</div>
+</div>
+<?php
+}
+?>  
+</form>
+</div>
+<div class="container">
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
+<button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
+</div>
+</div>
+<?php
 
   }else{ 
     if (isset($_GET['Id'])) {
@@ -205,7 +200,7 @@
         }
 
         ?>
-        <Div class='Contenedores' id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
+        <Div class='Contenedores' id='<?php echo 'Section1-'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>' >
           
             <?php
@@ -524,7 +519,7 @@
         }
 
         ?>
-        <Div class='Contenedores' id='<?php echo 'Section'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
+        <Div class='Contenedores' id='<?php echo 'Section2-'.$Session['Id'];?>' style="<?php echo $Fondo;?>" >
           <div class='<?php echo $Container;?>' >
             <?php
             $sql="SELECT Tipo1,Elemento1,Tipo2,Elemento2 FROM seccion2d where Seccion = ".$row['Seccion']."  order by Orden";
@@ -1086,6 +1081,7 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script>
     <script src="lib/touchSwipe/jquery.touchSwipe.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/Posi.js"></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
     <script src="js/creative.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -1143,7 +1139,7 @@ $('.filter-active').click();
     function GuardarEncuesta(){
       var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
-        $('.pregunta').hide();
+        
         $('.Res').show();
         var diasSeleccionados = new Array();
         $('input[type=checkbox]:checked').each(function() {
@@ -1152,6 +1148,7 @@ $('.filter-active').click();
           $('#Label'+P[2]).text($('#Label'+P[2]).text()+$(this).val()+';');
          
         });
+        $('.pregunta').remove();
         var Respuesta = $('#Encuesta').html();
         
        $.ajax({
