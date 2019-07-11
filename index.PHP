@@ -121,16 +121,17 @@
     $query = mysqli_query($con, $sql);
     ?>
     <div class="container" id="Encuesta">
-<form action="">
+<form class="form-horizontal" method="post" id="FEncuesta" name="FEncuesta" action='index.php'>
+<input type="text" name='IdEncuesta'  value='<?php echo $Id?>'>
 <?php
 while ($row=mysqli_fetch_array($query)){
 ?>
+
 <div class="row"><div class="col-md-8"><?php echo '<spam>'.$row['Pregunta'].'<spam>';?><br>
-<label class='Res'for="input<?php echo $row['Id']; ?>" id="Label<?php echo $row['Id']; ?>">R:/</label>
 <?php        
 if( $row['Tipo']=='Texto'){
 ?>
-<div class="form-group"><input type="text" class='form-control pregunta' id='<?php echo $row['Id']; ?>' name="input<?php echo $row['Id']; ?>" value=''></div>
+<div class="form-group"><input type="text" class='form-control pregunta' id='<?php echo $row['Id']; ?>' name="T-<?php echo $row['Id']; ?>" value='' required></div>
 <?php
 }else{
 if( $row['Tipo']=='Multiple'){
@@ -138,7 +139,7 @@ $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
 $query1 = mysqli_query($con, $sql1);
 while ($row1=mysqli_fetch_array($query1)){
 ?>
-<div class="form-check"><input class="form-check-input pregunta " type="checkbox" id='C-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' value="<?php echo $row1['Opcion']; ?>" name="Check<?php echo $row['Id']; ?>"><label class="form-check-label pregunta " for="defaultCheck1"><?php echo $row1['Opcion']; ?></label></div><?php
+<div class="form-check"><input class="form-check-input pregunta " type="checkbox"  value="<?php echo $row1['Opcion']; ?>" name="M-<?php echo $row1['Id']; ?>"><label class="form-check-label pregunta " for="defaultCheck1"><?php echo $row1['Opcion']; ?></label></div><?php
 }
 }else{
 if( $row['Tipo']=='Seleccion'){
@@ -146,7 +147,7 @@ $sql1="SELECT * FROM p_seleccion where Pregunta = ".$row['Id']." ";
 $query1 = mysqli_query($con, $sql1);
 while ($row1=mysqli_fetch_array($query1)){
 ?>
-<div class="form-check"><input class="form-check-input pregunta radio" type="radio"  id='R-<?php echo $row1['Id']; ?>-<?php echo $row['Id']; ?>' name="Radio<?php echo $row['Id']; ?>" value="<?php echo $row1['Opcion']; ?>"><label class="form-check-label pregunta" for="Radio<?php echo $row1['Id']; ?>" ><?php echo $row1['Opcion']; ?></label></div><?php
+<div class="form-check"><input class="form-check-input pregunta radio" type="radio"   name="S-<?php echo $row['Id']; ?>" value="<?php echo $row1['Opcion']; ?>"><label class="form-check-label pregunta" for="Radio<?php echo $row1['Id']; ?>" ><?php echo $row1['Opcion']; ?></label></div><?php
 }
 }
 } 
@@ -157,13 +158,14 @@ while ($row1=mysqli_fetch_array($query1)){
 <?php
 }
 ?>  
-</form>
-</div>
 <div class="container">
 <div class="modal-footer">
 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='Index.php'">Cancelar</button>
-<button type="submit" class="btn btn-primary" id="actualizar_datos3B" onclick='GuardarEncuesta()'>Guardar</button>
+<button type="submit" class="btn btn-primary" >Guardar</button>
 </div>
+</form>
+</div>
+
 </div>
 <?php
 
@@ -1136,33 +1138,34 @@ $('.filter-active').click();
         })
       })
     })
-    function GuardarEncuesta(){
-      var r = confirm("Desea Guardar las Respuestas");
+    function GuardarEncuesta(parametros){
+      
+    }
+    $( "#FEncuesta" ).submit(function( event ) {
+  
+
+  var parametros = $(this).serialize();
+  var r = confirm("Desea Guardar las Respuestas");
       if (r == true) {
         
-        $('.Res').show();
-        var diasSeleccionados = new Array();
-        $('input[type=checkbox]:checked').each(function() {
-          var Id =$(this).attr("id");
-          var P = Id.split('-');
-          $('#Label'+P[2]).text($('#Label'+P[2]).text()+$(this).val()+';');
-         
-        });
-        $('.pregunta').remove();
-        var Respuesta = $('#Encuesta').html();
         
        $.ajax({
         	url:'Guardar_Encuesta.php',
           type: "POST",
-          data: 'Respuesta='+Respuesta,
+          data: parametros,
 		      beforeSend: function(objeto){
+           
 	        },
 		      success:function(data){
-            location.href='Index.php';
+            alert(data);
+         //   location.href='Index.php';
 		      }
 	      })
       }
-    }
+  
+ 
+   event.preventDefault();
+})
   
 
 
