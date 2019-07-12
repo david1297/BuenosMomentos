@@ -1157,8 +1157,8 @@ $('.filter-active').click();
            
 	        },
 		      success:function(data){
-            alert(data);
-         //   location.href='Index.php';
+            
+            location.href='Index.php';
 		      }
 	      })
       }
