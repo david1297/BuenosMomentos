@@ -122,7 +122,7 @@
     ?>
     <div class="container" id="Encuesta">
 <form class="form-horizontal" method="post" id="FEncuesta" name="FEncuesta" action='index.php'>
-<input type="text" name='IdEncuesta'  value='<?php echo $Id?>'>
+<input type="text" name='IdEncuesta'  value='<?php echo $Id?>' CLASS='hidden form-control ' >
 <?php
 while ($row=mysqli_fetch_array($query)){
 ?>

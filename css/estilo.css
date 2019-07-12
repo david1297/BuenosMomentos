@@ -13,7 +13,9 @@
 @font-face {font-family: Calibri Light;src: url(Calibri/calibril.ttf);}
 @font-face {font-family: Calibri Light Italic;src: url(Calibri/calibrili.ttf);}
 @font-face {font-family: Calibri Bold Italic;src: url(Calibri/calibriz.ttf);}
-
+.hidden {
+	display: none !important;
+  }
 .bajar{
 	position: fixed;
 	bottom: 15px;
