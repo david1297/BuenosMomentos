@@ -19,7 +19,7 @@
     $Pregunta=$row['Pregunta'];
     if ($Tipo=='Texto'){
       
-      $Respuesta=$_POST['T-'.$Id];
+      $Respuesta=mysqli_real_escape_string($con,(strip_tags($_REQUEST['T-'.$Id], ENT_QUOTES)));
 
       $sql2 =  "INSERT INTO resp (Fecha,NRes,Pregunta,Respuesta,Hora) VALUES ('$Fecha',$Numero,'$Pregunta','$Respuesta','$Hora');";
       $query_update = mysqli_query($con,$sql2);
@@ -27,7 +27,7 @@
     }else{
       if ($Tipo=='Seleccion'){
         if(!empty($_POST['S-'.$Id])){
-          $Respuesta=$_POST['S-'.$Id];
+          $Respuesta=mysqli_real_escape_string($con,(strip_tags($_REQUEST['S-'.$Id], ENT_QUOTES)));
         } else{
           $Respuesta='';
         }
